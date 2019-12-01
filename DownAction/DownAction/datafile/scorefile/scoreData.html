@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>スコアデータ by DownAction</title>
+    <style>
+      .ao {color:blue}
+      .ori_1{font-size: 16; color:Yellow; background-color:darkslategray;}
+    </style>
+  </head>
+  <body>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script>
+      function InitLoad(data)
+      {
+        var csv = $.csv.toArray(data);
+        var insert = '';
+        $csv.each(function(){
+          if(this.length > 0)
+          {
+            insert+='<tr>';
+          }
+
+        });
+      }
+
+      function timesort()
+      {
+        // クリアタイム順のソート（昇順）
+      }
+
+      function scoresort()
+      {
+        // 取得スコア順のソート（降順）
+      }
+      InitLoad();
+    </script>
+    <h1 id="ao">スコアデータ一覧</h1>
+    <button onclick="scoresort()">取得スコア順ソート</button>
+    <button onclick="timesort()">クリアタイム順ソート</button>
+  </body>
+</html>
