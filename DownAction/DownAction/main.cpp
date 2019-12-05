@@ -35,7 +35,7 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 #endif // _DEBUG
 
 	// メッセージループ
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_END) == 0)
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_END) == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 		ClearDrawScreen();
 		key->KeyUpdate();

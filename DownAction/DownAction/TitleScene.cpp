@@ -41,6 +41,17 @@ void TitleScene::Update()
 		{
 			sele = MG::mEnd;
 		}
+
+
+		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0)
+		{
+			
+		}
+
+		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_E) > 0)
+		{
+			system("\"D:\\GitFiles\FolderSystem\\MusicBox\\MusicPlayer.exe\"");
+		}
 	}
 	else if (sceneFlag == true)
 	{
