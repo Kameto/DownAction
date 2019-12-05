@@ -45,12 +45,12 @@ void TitleScene::Update()
 
 		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0)
 		{
-			
+			// スコアhtmlの表示
 		}
 
 		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_E) > 0)
 		{
-			system("\"D:\\GitFiles\FolderSystem\\MusicBox\\MusicPlayer.exe\"");
+			// 音楽プレーヤー再生
 		}
 	}
 	else if (sceneFlag == true)

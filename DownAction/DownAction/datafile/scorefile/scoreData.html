@@ -4,39 +4,84 @@
     <meta charset="UTF-8">
     <title>スコアデータ by DownAction</title>
     <style>
-      .ao {color:blue}
+      .ao {color:blue; background-color:darkkhaki}
       .ori_1{font-size: 16; color:Yellow; background-color:darkslategray;}
+      .data{font-size: 2ch;color:green;}
+      .box{background-color:gold;}
     </style>
-  </head>
-  <body>
-    <script src="jquery-3.4.1.min.js"></script>
+    <script src="jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.5/jquery.csv.min.js"></script>
     <script>
-      function InitLoad(data)
+      function LoadCSV(data)
       {
-        var csv = $.csv.toArray(data);
+        var target = '#csv-body';
+        var csv = $.csv.toArrays(data);
         var insert = '';
-        $csv.each(function(){
+        $(csv).each(function(){
           if(this.length > 0)
           {
-            insert+='<tr>';
+            insert+='<tr class="box">';
+            $(this).each(function(){
+              insert += '<td class="data">' + this + '</td>';
+            });
+            insert += '</tr>';   
           }
-
         });
+        $(target).append(insert);
       }
 
-      function timesort()
+      function ArrayCSV(data, arrays)
       {
-        // クリアタイム順のソート（昇順）
+        var tmpArray = data.split("\n");
+        var csvArray = new Array();
+        for(var i = 0; i < tmpArray.length; i++)
+        {
+           csvArray[i] = tmpArray[i].split(",");
+           arrays[i] = csvArray[i];
+        }
       }
+
+      var csvfile = 'scoredata.csv';
+      var arrays = new Array();
+      $(function()
+      {
+        $.get(csvfile, LoadCSV, 'text'); 
+      });
+
+      $(function()
+      {
+          $.get(csvfile, arrays,ArrayCSV);
+      });
 
       function scoresort()
       {
         // 取得スコア順のソート（降順）
+        alert("実装されていません。");
       }
-      InitLoad();
+
+      function timesort(arrays)
+      {
+        // クリアタイム順のソート（昇順）
+        alert("実装されていません。");
+      }
     </script>
-    <h1 id="ao">スコアデータ一覧</h1>
-    <button onclick="scoresort()">取得スコア順ソート</button>
-    <button onclick="timesort()">クリアタイム順ソート</button>
+  </head>
+  <body>
+    <h1 class="ao">スコアデータ一覧</h1>
+    <button onclick="scoresort(arrays)">取得スコア順ソート</button>
+    <button onclick="timesort(arrays)">クリアタイム順ソート</button>
+    <table>
+      <caption><h2>データ</h2></caption>
+      <thead>
+        <tr>
+          <th>獲得スコア</th>
+          <th>クリアタイム</th>
+        </tr>
+      </thead>
+      <tbody id='csv-body' />
+    </table>
   </body>
 </html>

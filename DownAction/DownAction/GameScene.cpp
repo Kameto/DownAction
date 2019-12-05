@@ -466,6 +466,17 @@ void GameScene::Draw()
 		for (int i = 0, n = (unsigned)block.size(); i < n; i++)
 		{
 			block[i]->Draw();
+			if (Keyboard::GetKey(KEY_INPUT_P) == 1)
+			{
+				if (block[i]->transFlag == false)
+				{
+					block[i]->transFlag = true;
+				}
+				else
+				{
+					block[i]->transFlag = false;
+				}
+			}
 		}
 		for (int i = 0, n = (unsigned)item.size(); i < n; i++)
 		{
@@ -524,22 +535,6 @@ void GameScene::Draw()
 
 	// 敵数表示
 	DrawFormatString(0, 256, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
-
-	/*if(range > 12)
-	{
-		if (stickX > TRANS_SX)
-		{
-			DrawFormatString(640, 96, 0xFFFFFF, "STICK RIGHT");
-		}
-		else
-		{
-			DrawFormatString(640, 96, 0xFFFFFF, "STICK LEFT");
-		}
-	}
-	else
-	{
-		DrawFormatString(640, 96, 0xFFFFFF, "STICK MEDIAN");
-	}*/
 
 	// ブロックの状態
 	/*for (int i = 0, n = (unsigned)block.size(); i < n; i++)

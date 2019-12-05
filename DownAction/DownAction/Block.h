@@ -9,4 +9,6 @@ public:
 	~Block();
 	void Update();
 	void Draw();
+
+	bool transFlag;
 };
