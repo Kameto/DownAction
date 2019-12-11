@@ -463,6 +463,10 @@ void GameScene::Draw()
 		{
 			enemy[i]->Draw();
 		}
+		for (int i = 0, n = (unsigned)item.size(); i < n; i++)
+		{
+			item[i]->Draw();
+		}
 		for (int i = 0, n = (unsigned)block.size(); i < n; i++)
 		{
 			block[i]->Draw();
@@ -474,10 +478,6 @@ void GameScene::Draw()
 			{
 				block[i]->transFlag = false;
 			}
-		}
-		for (int i = 0, n = (unsigned)item.size(); i < n; i++)
-		{
-			item[i]->Draw();
 		}
 	}
 

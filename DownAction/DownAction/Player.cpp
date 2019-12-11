@@ -205,7 +205,13 @@ void Player::Draw()
 									 0xFF0000,								true);
 #endif
 
-	DrawRotaGraph(96, 640, 1.25, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
+	DrawRotaGraph(96, 640, 1.30, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
+	DrawRotaGraph(96, 390, 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela), true, false);
+	for (int i = 1; i < 5; i++)
+	{
+		DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
+		DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
+	}
 
 	if (damegeFlag == true)
 	{
