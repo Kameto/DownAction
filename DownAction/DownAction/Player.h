@@ -18,9 +18,11 @@ public:
 	Dir dir;
 	static int enegy;
 	int life;
-	int counter[3];
+	int counter[4];
+	unsigned int bCount;// ブロック透過カウント
 	bool actionFlag;
 	bool damegeFlag;
 	bool fuwaFlag;
 	bool kataFlag;
+	bool blockFlag;// 透過しているか判別フラグ
 };

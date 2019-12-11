@@ -20,10 +20,13 @@ Player::Player()
 	counter[0]		 = 0;
 	counter[1]		 = 0;
 	counter[2]		 = 0;
+	counter[3]		 = 0;
+	bCount			 = 3;
 	actionFlag		 = false;
 	damegeFlag		 = false;
 	fuwaFlag		 = false;
 	kataFlag		 = false;
+	blockFlag		 = false;
 	dir = Dir::mNone;
 }
 
@@ -34,10 +37,13 @@ Player::~Player()
 	counter[0]	 = 0;
 	counter[1]	 = 0;
 	counter[2]	 = 0;
+	counter[3]	 = 0;
+	bCount		 = 0;
 	actionFlag	 = false;
 	damegeFlag	 = false;
 	fuwaFlag	 = false;
 	kataFlag	 = false;
+	blockFlag	 = false;
 	dir			 = Dir::mNone;
 }
 
@@ -110,6 +116,27 @@ void Player::StateUpdate()
 			mpInfo->state = CS::mNomal;
 		}
 	}
+
+	// ブロック透過用処理
+	if (bCount != 0 && blockFlag == false && Keyboard::GetKey(KEY_INPUT_C) == 1)
+	{
+		blockFlag = true;
+		counter[3] = 0;
+	}
+
+	if (blockFlag == true)
+	{
+		if (counter[3] < 120)
+		{
+			counter[3]++;
+		}
+		else
+		{
+			blockFlag = false;
+			bCount--;
+			bCount--;
+		}
+	}
 }
 
 void Player::Update()
@@ -177,6 +204,8 @@ void Player::Draw()
 			mpPoint->cx + (mpInfo->sizeX / 2), mpPoint->cy + (mpInfo->sizeY / 2),
 									 0xFF0000,								true);
 #endif
+
+	DrawRotaGraph(96, 640, 1.25, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
 
 	if (damegeFlag == true)
 	{

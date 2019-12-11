@@ -24,6 +24,8 @@ typedef enum MainGraphs
 	mAlter,		// 祭壇
 	mBox,		// 宝箱
 	mComment2,	// 吹き出し
+	mItemBox,	// アイテムボックス
+	mCandela,	// カンデラ
 	mAll_num	// 総数
 }MG;
 

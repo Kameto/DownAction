@@ -466,16 +466,13 @@ void GameScene::Draw()
 		for (int i = 0, n = (unsigned)block.size(); i < n; i++)
 		{
 			block[i]->Draw();
-			if (Keyboard::GetKey(KEY_INPUT_P) == 1)
+			if (p1->blockFlag == true)
 			{
-				if (block[i]->transFlag == false)
-				{
-					block[i]->transFlag = true;
-				}
-				else
-				{
-					block[i]->transFlag = false;
-				}
+				block[i]->transFlag = true;
+			}
+			else
+			{
+				block[i]->transFlag = false;
 			}
 		}
 		for (int i = 0, n = (unsigned)item.size(); i < n; i++)
