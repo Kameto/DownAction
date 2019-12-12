@@ -10,7 +10,7 @@ Enemy::Enemy(double _x, double _y)
 	mpPoint->cy = _y;
 	mpInfo->sizeX = 32;
 	mpInfo->sizeY = 32;
-	mpPoint->speed = 8;
+	mpPoint->speed = 4;
 	mpInfo->dirFlag = false;
 	mpInfo->state = CS::mNomal;
 }

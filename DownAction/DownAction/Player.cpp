@@ -27,7 +27,7 @@ Player::Player()
 	fuwaFlag		 = false;
 	kataFlag		 = false;
 	blockFlag		 = false;
-	dir = Dir::mNone;
+	dir				 = Dir::mNone;
 }
 
 Player::~Player()
@@ -118,7 +118,7 @@ void Player::StateUpdate()
 	}
 
 	// ブロック透過用処理
-	if (bCount != 0 && blockFlag == false && Keyboard::GetKey(KEY_INPUT_C) == 1)
+	if (bCount != 0 && blockFlag == false && Keyboard::GetKey(KEY_INPUT_C) == 1 && ItemMgr::possItemFlag[ItemName::IN_mMask] == true)
 	{
 		blockFlag = true;
 		counter[3] = 0;
@@ -205,12 +205,29 @@ void Player::Draw()
 									 0xFF0000,								true);
 #endif
 
+	// アイテムボックスとか
 	DrawRotaGraph(96, 640, 1.30, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
-	DrawRotaGraph(96, 390, 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela), true, false);
-	for (int i = 1; i < 5; i++)
+	//DrawRotaGraph(96, 390, 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela), true, false);
+	//DrawRotaGraph(96, 518, 0.45, 0.0, Graphics::GetMainGraph(MG::mMask), true, false);
+
+	for (int i = 0; i < ItemMgr::possItem; i++)
 	{
-		DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
-		DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
+		if (ItemMgr::possItemFlag[i] == true)
+		{
+			if ((20 + i) < (int)MG::mAll_num)
+			{
+				DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.30, 0.0, Graphics::GetMainGraph(20 + i), true, false);
+			}
+			else
+			{
+				DrawCircle(96, 390 + ((128 * i) - (i * 3)), 30, 0xFF0000, true);
+			}
+		}
+		else
+		{
+			DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
+			DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
+		}
 	}
 
 	if (damegeFlag == true)

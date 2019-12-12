@@ -26,6 +26,7 @@ typedef enum MainGraphs
 	mComment2,	// 吹き出し
 	mItemBox,	// アイテムボックス
 	mCandela,	// カンデラ
+	mMask,		// マスク
 	mAll_num	// 総数
 }MG;
 
@@ -63,5 +64,4 @@ private:
 	static int e_gr[CS::mCnum];
 	static int b_gr[6];
 };
-
 typedef Graphics Graph;

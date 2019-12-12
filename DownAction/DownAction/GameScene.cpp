@@ -57,7 +57,6 @@ GameScene::GameScene()
 	stickY		 = TRANS_SY;
 	radian		 = 0.0;
 	range		 = 0;
-
 	SetDrawBright(255, 255, 255);
 }
 
@@ -532,6 +531,9 @@ void GameScene::Draw()
 
 	// 敵数表示
 	DrawFormatString(0, 256, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
+
+	// アイテムフラグ
+	DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
 
 	// ブロックの状態
 	/*for (int i = 0, n = (unsigned)block.size(); i < n; i++)

@@ -11,10 +11,12 @@ SceneMgr::SceneMgr()
 	df		 = new DataFile();
 	sc		 = nullptr;
 	sc		 = new Score();
+	imgr	 = new ItemMgr();
 }
 
 SceneMgr::~SceneMgr()
 {
+	DEL_OBJ(imgr);
 	DEL_OBJ(sc);
 	DEL_OBJ(df);
 	DEL_OBJ(gra);

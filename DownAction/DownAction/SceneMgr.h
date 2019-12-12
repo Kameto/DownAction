@@ -20,4 +20,5 @@ private:
 	Graphics* gra;		// 画像クラスポインター
 	DataFile* df;		// ファイル関連クラスポインター
 	Score* sc;			// ゲーム内スコアクラスポインター
+	ItemMgr* imgr;		// プレイヤーアイテム管理クラスポインター
 };

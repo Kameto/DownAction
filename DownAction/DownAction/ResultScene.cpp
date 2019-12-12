@@ -7,7 +7,24 @@ ResultScene::ResultScene()
 	counter[1] = 0;
 	counter[2] = 0;
 	counter[3] = 0;
-	rand = MyRand::GetRand() % 3;
+	//rand = MyRand::GetRand() % 3;
+	rand = 1;
+	if (rand == 1)
+	{
+		if (ItemMgr::possMaxFlag == false)
+		{
+			int a = MyRand::GetRand() % 5;
+			for (int i = a; i < ItemMgr::possItem; i++)
+			{
+				if (ItemMgr::possItemFlag[i] == false)
+				{
+					ItemMgr::possItemFlag[i] = true;
+					break;
+				}
+			}
+			ItemMgr::possMaxFlag = ItemMgr::CheckItem();
+		}
+	}
 	sceneFlag = false;
 }
 
