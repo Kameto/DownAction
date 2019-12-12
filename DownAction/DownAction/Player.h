@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 #include "ItemMgr.h"
+#include "JoyPad.h"
 
 typedef enum class Direction
 {

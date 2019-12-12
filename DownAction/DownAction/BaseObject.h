@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Camera.h"
 #include "Score.h"
+#include "JoyPad.h"
 
 namespace ObjState
 {

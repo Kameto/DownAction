@@ -27,6 +27,7 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	SetMouseDispFlag(false);					// ウィンドウモードでもマウスカーソルを非表示にする
 
 	Keyboard* key	 = new Keyboard();
+	JoyPad* pad		 = new JoyPad();
 	SceneMgr* smgr	 = new SceneMgr();
 	MyRand* mrnd	 = new MyRand();
 
@@ -39,6 +40,7 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	{
 		ClearDrawScreen();
 		key->KeyUpdate();
+		pad->Pad_Update();
 		smgr->SceneUpdate();
 		smgr->SceneDraw();
 		if (smgr->GetEndFlag() == true)
@@ -60,6 +62,7 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	DEL_OBJ(mrnd);
 	DEL_OBJ(smgr);
+	DEL_OBJ(pad);
 	DEL_OBJ(key);
 
 	InitGraph();

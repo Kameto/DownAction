@@ -2,6 +2,7 @@
 #include "Keyboard.h"
 #include "Graphics.h"
 #include "ItemMgr.h"
+#include "JoyPad.h"
 
 enum class SceneName
 {
@@ -23,6 +24,7 @@ public:
 protected:
 	void FadeOut(SceneName);
 	void FadeIn();
+	void EndInput();
 	static SceneName nowScene;
 	static bool firstFlag;
 	static int counter;

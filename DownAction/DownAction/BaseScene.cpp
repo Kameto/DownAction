@@ -30,3 +30,12 @@ void BaseScene::FadeIn()
 		counter++;
 	}
 }
+
+void BaseScene::EndInput()
+{
+	if (Keyboard::GetKey(KEY_INPUT_ESCAPE) > 0 ||
+		(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) > 0 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_BACK) > 0))
+	{
+		endFlag = true;
+	}
+}

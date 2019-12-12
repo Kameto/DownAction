@@ -7,11 +7,11 @@ bool ItemMgr::possMaxFlag;
 ItemMgr::ItemMgr()
 {
 	possItemFlag = new bool[possItem];
-	possItemFlag[0] = true;
-	for (int i = 1; i < possItem; i++)
+	for (int i = 0; i < possItem; i++)
 	{
 		possItemFlag[i] = false;
 	}
+	possItemFlag[0] = true;
 	possMaxFlag = false;
 }
 

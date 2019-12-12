@@ -7,8 +7,7 @@ ResultScene::ResultScene()
 	counter[1] = 0;
 	counter[2] = 0;
 	counter[3] = 0;
-	//rand = MyRand::GetRand() % 3;
-	rand = 1;
+	rand = MyRand::GetRand() % 3;
 	if (rand == 1)
 	{
 		if (ItemMgr::possMaxFlag == false)
