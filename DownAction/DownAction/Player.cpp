@@ -118,7 +118,8 @@ void Player::StateUpdate()
 	}
 
 	// ブロック透過用処理
-	if (bCount != 0 && blockFlag == false && Keyboard::GetKey(KEY_INPUT_C) == 1 && ItemMgr::possItemFlag[ItemName::IN_mMask] == true)
+	if (bCount != 0 && blockFlag == false && ItemMgr::possItemFlag[ItemName::IN_mMask] == true &&
+		(Keyboard::GetKey(KEY_INPUT_C) == 1))
 	{
 		blockFlag = true;
 		counter[3] = 0;
@@ -166,11 +167,13 @@ void Player::Update()
 	}
 
 	// 左右移動 //
-	if (Keyboard::GetKey(KEY_INPUT_D) > 0 && mpPoint->cx + (mpInfo->sizeX / 2) + mpPoint->speed < (1920 - (double)WALL_WIDTH))
+	if ((Keyboard::GetKey(KEY_INPUT_D) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_RIGHT) > 0)
+		&& mpPoint->cx + (mpInfo->sizeX / 2) + mpPoint->speed < (1920 - (double)WALL_WIDTH))
 	{
 		dir = Dir::mRight;
 	}
-	else if (Keyboard::GetKey(KEY_INPUT_A) > 0 && mpPoint->cx - (mpInfo->sizeX / 2) - mpPoint->speed > WALL_WIDTH)
+	else if ((Keyboard::GetKey(KEY_INPUT_A) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 0)
+		&& mpPoint->cx - (mpInfo->sizeX / 2) - mpPoint->speed > WALL_WIDTH)
 	{
 		dir = Dir::mLeft;
 	}
