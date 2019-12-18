@@ -31,6 +31,9 @@ public:
 	void Draw();
 
 private:
+	void StageCreate(const int);
+	void StageRelease(const bool);
+
 	Player* p1;
 	Camera* cmr;
 	Font* font;
