@@ -9,35 +9,7 @@ GameScene::GameScene()
 	font = new Font("MS ゴシック", DX_FONTTYPE_ANTIALIASING_EDGE);
 	tw	 = new TimeWatch();
 	
-	block.resize(0);
-	if (DataFile::Load("datafile/blocks.csv") == 0)
-	{
-		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-		{
-			block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-		}
-		DataFile::Clear();
-	}
-
-	item.resize(0);
-	if (DataFile::Load("datafile/item.csv") == 0)
-	{
-		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-		{
-			item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-		}
-		DataFile::Clear();
-	}
-	
-	enemy.resize(0);
-	if (DataFile::Load("datafile/enemy.csv") == 0)
-	{
-		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-		{
-			enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-		}
-		DataFile::Clear();
-	}
+	this->StageCreate(0);
 	
 	DataFile::LoadText();
 
@@ -75,6 +47,89 @@ GameScene::~GameScene()
 	DEL_OBJ(p1);
 	DEL_OBJ(cmr);
 	DEL_OBJ(font);
+	StageRelease(true);
+
+	// ローカル変数再初期化
+	goalPoint	 = 0;
+	counter[0]	 = 0;
+	counter[1]	 = 0;
+	counter[2]	 = 0;
+	counter[3]	 = 0;
+	goalFlag	 = false;
+	overFlag	 = false;
+	explanFlag	 = false;
+	tEndFlag	 = false;
+	getFlag		 = false;
+	brightFlag	 = true;
+}
+
+void GameScene::StageCreate(const int _stage)
+{
+	if (_stage != 0)
+	{
+		std::string path = "datafile/blocks("+std::to_string(_stage)+").csv";
+		if (DataFile::Load(path) == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+
+		path = "datafile/items(" + std::to_string(_stage) + ").csv";
+		if (DataFile::Load(path) == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+
+		path = "datafile/enemy(" + std::to_string(_stage) + ").csv";
+		if (DataFile::Load(path) == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+	}
+	else
+	{
+		if (DataFile::Load("datafile/blocks.csv") == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+
+		if (DataFile::Load("datafile/item.csv") == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+
+		if (DataFile::Load("datafile/enemy.csv") == 0)
+		{
+			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
+			{
+				enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
+			}
+			DataFile::Clear();
+		}
+	}
+}
+
+void GameScene::StageRelease(const bool flag)
+{
 	if (!enemy.empty())
 	{
 		for (int i = 0, n = (unsigned)enemy.size(); i < n; i++)
@@ -98,19 +153,17 @@ GameScene::~GameScene()
 			DEL_OBJ(item[i]);
 		}
 	}
+	if (flag == true)
+	{
+		enemy.erase(enemy.begin(), enemy.end());
+		enemy.shrink_to_fit();
 
-	// ローカル変数再初期化
-	goalPoint	 = 0;
-	counter[0]	 = 0;
-	counter[1]	 = 0;
-	counter[2]	 = 0;
-	counter[3]	 = 0;
-	goalFlag	 = false;
-	overFlag	 = false;
-	explanFlag	 = false;
-	tEndFlag	 = false;
-	getFlag		 = false;
-	brightFlag	 = true;
+		block.erase(block.begin(), block.end());
+		block.shrink_to_fit();
+
+		item.erase(item.begin(), item.end());
+		item.shrink_to_fit();
+	}
 }
 
 void GameScene::GimmickUpdate()
