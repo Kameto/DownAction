@@ -8,9 +8,22 @@ GameScene::GameScene()
 	cmr	 = new Camera();
 	font = new Font("MS ゴシック", DX_FONTTYPE_ANTIALIASING_EDGE);
 	tw	 = new TimeWatch();
+
+	std::string path[3];
+	if (BaseScene::nowStage == 0)
+	{
+		path[0] = "datafile//block/blocks.csv";
+		path[1] = "datafile/item/item.csv";
+		path[2] = "datafile/enemy/enemy.csv";
+	}
+	else
+	{
+		path[0] = "datafile/block/blocks(" + std::to_string(nowStage) + ").csv";
+		path[1] = "datafile/item/item(" + std::to_string(nowStage) + ").csv";
+		path[2] = "datafile/enemy/enemy(" + std::to_string(nowStage) + ").csv";
+	}
 	
-	block.resize(0);
-	if (DataFile::Load("datafile/blocks.csv") == 0)
+	if (DataFile::Load(path[0]) == 0)
 	{
 		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
@@ -19,8 +32,7 @@ GameScene::GameScene()
 		DataFile::Clear();
 	}
 
-	item.resize(0);
-	if (DataFile::Load("datafile/item.csv") == 0)
+	if (DataFile::Load(path[1]) == 0)
 	{
 		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
@@ -29,8 +41,7 @@ GameScene::GameScene()
 		DataFile::Clear();
 	}
 	
-	enemy.resize(0);
-	if (DataFile::Load("datafile/enemy.csv") == 0)
+	if (DataFile::Load(path[2]) == 0)
 	{
 		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
@@ -69,7 +80,7 @@ GameScene::~GameScene()
 		DataFile::score.push_back(Score::score);
 	}
 	Score::ScoreReset();
-	
+
 	// ポインター初期化
 	DEL_OBJ(tw);
 	DEL_OBJ(p1);
@@ -358,7 +369,17 @@ void GameScene::Update()
 
 			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
 			{
-				BaseScene::nowScene = SceneName::eResult;
+				//BaseScene::nowScene = SceneName::eResult;
+				
+				if ((BaseScene::stageNum - 1) != BaseScene::nowStage)
+				{
+					BaseScene::nowScene = SceneName::eResult2;
+				}
+				else
+				{
+					BaseScene::nowScene = SceneName::eResult;
+				}
+				
 			}
 		}
 		else
@@ -388,7 +409,14 @@ void GameScene::Update()
 	// シーン切替
 	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
 	{
-		BaseScene::nowScene = SceneName::eResult;
+		if ((BaseScene::stageNum - 1) != BaseScene::nowStage)
+		{
+			BaseScene::nowScene = SceneName::eResult2;
+		}
+		else
+		{
+			BaseScene::nowScene = SceneName::eResult;
+		}
 	}
 
 	//座標初期化
@@ -412,7 +440,6 @@ void GameScene::StageDraw()
 	//DrawBox(1920 - WALL_WIDTH, 0, 1920, 1080, 0xFF0077, true);
 	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawBox(0, goalPoint - Camera::my, 1920, goalPoint + 16 - Camera::my, 0xFFFFFF, true);
-	
 
 	// ライフ&エネルギーゲージ
 	DrawBox(1800 - 64, 460 - 256, 1800 + 64, 460 + 256, 0x105050, true);
@@ -433,6 +460,8 @@ void GameScene::StageDraw()
 	{
 		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.0%.0f", tw->second, tw->mSecond);
 	}
+
+	DrawExtendFormatString(WIND_WIDTH / 2 - 448, 32, 4.0, 2.0, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
 
 	// 説明文表示
 	if (explanFlag == true && counter[1] < 4)

@@ -41,16 +41,19 @@ void TitleScene::Update()
 		{
 			sele = MG::mEnd;
 		}
-
-
-		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0)
+		
+		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0) || 
+			(JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) > 20))
 		{
 			// スコアhtmlの表示
+			system("start firefox.exe file:///D:/GitFiles/DownAction/DownAction/DownAction/datafile/scorefile/scoreData.html");
 		}
 
-		if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_E) > 0)
+		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0) ||
+			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_LEFT_SHOULDER) > 20))
 		{
 			// 音楽プレーヤー再生
+			system("start StageCreater.exe");
 		}
 	}
 	else if (sceneFlag == true)
