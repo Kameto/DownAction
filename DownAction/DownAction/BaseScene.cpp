@@ -4,6 +4,8 @@ SceneName BaseScene::nowScene = SceneName::eTitle;
 bool BaseScene::endFlag = false;
 bool BaseScene::firstFlag = true;
 int BaseScene::counter = 0;
+int BaseScene::nowStage = 0;
+int BaseScene::stageNum = 3;
 
 SceneName BaseScene::GetNowScene()
 {
