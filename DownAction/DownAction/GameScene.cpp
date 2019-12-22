@@ -9,9 +9,25 @@ GameScene::GameScene()
 	font = new Font("MS ゴシック", DX_FONTTYPE_ANTIALIASING_EDGE);
 	tw	 = new TimeWatch();
 	
-	this->StageCreate(0);
-	
-	DataFile::LoadText();
+	std::string path[3];
+	if (BaseScene::nowStage != 0)
+	{
+		path[0] = "datafile/block/blocks(" + std::to_string(BaseScene::nowStage) + ").csv";
+		path[1] = "datafile/item/item(" + std::to_string(BaseScene::nowStage) + ").csv";
+		path[2] = "datafile/enemy/enemy(" + std::to_string(BaseScene::nowStage) + ").csv";
+	}
+	else
+	{
+		path[0] = "datafile/block/blocks.csv";
+		path[1] = "datafile/item/item.csv";
+		path[2] = "datafile/enemy/enemy.csv";
+	}
+	StageCreate(path);
+
+	if (BaseScene::firstFlag == true)
+	{
+		DataFile::LoadText();
+	}
 
 	// ローカル変数初期化
 	goalPoint	 = (STAGE_HIEGHT * 32);
@@ -47,7 +63,7 @@ GameScene::~GameScene()
 	DEL_OBJ(p1);
 	DEL_OBJ(cmr);
 	DEL_OBJ(font);
-	StageRelease(true);
+	StageRelease();
 
 	// ローカル変数再初期化
 	goalPoint	 = 0;
@@ -63,81 +79,36 @@ GameScene::~GameScene()
 	brightFlag	 = true;
 }
 
-void GameScene::StageCreate(const int _stage)
+void GameScene::StageCreate(const std::string path[])
 {
-	if (_stage != 0)
+	if (DataFile::Load(path[0]) == 0)
 	{
-		std::string path = "datafile/blocks("+std::to_string(_stage)+").csv";
-		if (DataFile::Load(path) == 0)
+		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
+			block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
 		}
-
-		path = "datafile/items(" + std::to_string(_stage) + ").csv";
-		if (DataFile::Load(path) == 0)
-		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
-		}
-
-		path = "datafile/enemy(" + std::to_string(_stage) + ").csv";
-		if (DataFile::Load(path) == 0)
-		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
-		}
+		DataFile::Clear();
 	}
-	else
+	if (DataFile::Load(path[1]) == 0)
 	{
-		if (DataFile::Load("datafile/blocks.csv") == 0)
+		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				block.push_back(new Block(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
+			item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
 		}
-
-		if (DataFile::Load("datafile/item.csv") == 0)
+		DataFile::Clear();
+	}
+	if (DataFile::Load(path[2]) == 0)
+	{
+		for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
 		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				item.push_back(new Item(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
+			enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
 		}
-
-		if (DataFile::Load("datafile/enemy.csv") == 0)
-		{
-			for (int i = 0, n = (unsigned)DataFile::objP.size(); i < n; i++)
-			{
-				enemy.push_back(new Enemy(DataFile::objP.at(i).x, DataFile::objP.at(i).y));
-			}
-			DataFile::Clear();
-		}
+		DataFile::Clear();
 	}
 }
 
-void GameScene::StageRelease(const bool flag)
+void GameScene::StageRelease()
 {
-	if (!enemy.empty())
-	{
-		for (int i = 0, n = (unsigned)enemy.size(); i < n; i++)
-		{
-			DEL_OBJ(enemy[i]);
-		}
-	}
-
 	if (!block.empty())
 	{
 		for (int i = 0, n = (unsigned)block.size(); i < n; i++)
@@ -145,7 +116,8 @@ void GameScene::StageRelease(const bool flag)
 			DEL_OBJ(block[i]);
 		}
 	}
-
+	block.erase(block.begin(), block.end());
+	block.shrink_to_fit();
 	if (!item.empty())
 	{
 		for (int i = 0, n = (unsigned)item.size(); i < n; i++)
@@ -153,17 +125,17 @@ void GameScene::StageRelease(const bool flag)
 			DEL_OBJ(item[i]);
 		}
 	}
-	if (flag == true)
+	item.erase(item.begin(), item.end());
+	item.shrink_to_fit();
+	if (!enemy.empty())
 	{
-		enemy.erase(enemy.begin(), enemy.end());
-		enemy.shrink_to_fit();
-
-		block.erase(block.begin(), block.end());
-		block.shrink_to_fit();
-
-		item.erase(item.begin(), item.end());
-		item.shrink_to_fit();
+		for (int i = 0, n = (unsigned)enemy.size(); i < n; i++)
+		{
+			DEL_OBJ(enemy[i]);
+		}
 	}
+	enemy.erase(enemy.begin(), enemy.end());
+	enemy.shrink_to_fit();
 }
 
 void GameScene::GimmickUpdate()
@@ -441,7 +413,14 @@ void GameScene::Update()
 	// シーン切替
 	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
 	{
-		BaseScene::nowScene = SceneName::eResult;
+		if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
+		{
+			BaseScene::nowScene = SceneName::eResult2;
+		}
+		else
+		{
+			BaseScene::nowScene = SceneName::eResult;
+		}
 	}
 
 	//座標初期化
@@ -465,7 +444,6 @@ void GameScene::StageDraw()
 	//DrawBox(1920 - WALL_WIDTH, 0, 1920, 1080, 0xFF0077, true);
 	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawBox(0, goalPoint - Camera::my, 1920, goalPoint + 16 - Camera::my, 0xFFFFFF, true);
-	
 
 	// ライフ&エネルギーゲージ
 	DrawBox(1800 - 64, 460 - 256, 1800 + 64, 460 + 256, 0x105050, true);
@@ -486,6 +464,8 @@ void GameScene::StageDraw()
 	{
 		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.0%.0f", tw->second, tw->mSecond);
 	}
+
+	DrawExtendFormatString(WIND_WIDTH / 2 - 448, 32, 4.0, 2.0, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
 
 	// 説明文表示
 	if (explanFlag == true && counter[1] < 4)

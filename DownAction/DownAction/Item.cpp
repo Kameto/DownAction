@@ -1,6 +1,7 @@
 #include"Item.h"
 
 Item::Item()
+	: BaseObject()
 {
 	this->mpPoint->cx = 128;
 	this->mpPoint->cx = 128;
@@ -10,6 +11,7 @@ Item::Item()
 }
 
 Item::Item(double _x, double _y)
+	: BaseObject()
 {
 	this->mpPoint->cx = _x;
 	this->mpPoint->cy = _y;

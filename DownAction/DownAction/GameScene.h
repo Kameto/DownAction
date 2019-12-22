@@ -31,8 +31,8 @@ public:
 	void Draw();
 
 private:
-	void StageCreate(const int);
-	void StageRelease(const bool);
+	void StageCreate(const std::string path[]);
+	void StageRelease();
 
 	Player* p1;
 	Camera* cmr;

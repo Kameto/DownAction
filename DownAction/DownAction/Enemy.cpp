@@ -1,10 +1,12 @@
 #include"Enemy.h"
 
 Enemy::Enemy()
+	: BaseObject()
 {
 }
 
 Enemy::Enemy(double _x, double _y)
+	: BaseObject()
 {
 	mpPoint->cx = _x;
 	mpPoint->cy = _y;
