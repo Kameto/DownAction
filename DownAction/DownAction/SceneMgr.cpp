@@ -38,12 +38,6 @@ void SceneMgr::ChangeScene()
 	case SceneName::eResult:
 		mpScene = new ResultScene();
 		break;
-	case SceneName::eResult2:
-		mpScene = new ResultScene2();
-		break;
-	case SceneName::eIC_Scene:
-		mpScene = new IC_Scene();
-		break;
 	default:
 		break;
 	}

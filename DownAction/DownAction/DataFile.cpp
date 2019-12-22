@@ -69,7 +69,7 @@ int DataFile::Load(std::string path)
 void DataFile::Clear()
 {
 	objP.erase(objP.begin(), objP.end());
-	objP.shrink_to_fit();
+	objP.resize(0);
 }
 
 int DataFile::LoadText()

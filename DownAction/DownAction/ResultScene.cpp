@@ -25,7 +25,6 @@ ResultScene::ResultScene()
 		}
 	}
 	sceneFlag = false;
-	BaseScene::nowStage = 0;
 }
 
 ResultScene::~ResultScene()

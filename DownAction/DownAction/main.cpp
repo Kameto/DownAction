@@ -52,6 +52,7 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		//fps->Draw();
 		//fps->Waits();
 #endif // _DEBUG
+
 		ScreenFlip();
 	}
 

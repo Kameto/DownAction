@@ -8,9 +8,7 @@ enum class SceneName
 {
 	eTitle,
 	eGame,
-	eResult,
-	eResult2,
-	eIC_Scene
+	eResult
 };
 
 class BaseScene
@@ -30,6 +28,4 @@ protected:
 	static SceneName nowScene;
 	static bool firstFlag;
 	static int counter;
-	static int nowStage;
-	static int stageNum;
 };

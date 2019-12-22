@@ -1,9 +1,7 @@
 #pragma once
 #include "GameScene.h"		// GameScene,Graphics,Keyboard,DataFile,Score
 #include "ResultScene.h"	// ResulScene,Graphics,Keyboard,DataFile,Score
-#include "ResultScene2.h"	// ResulScene2,Graphics,Keyboard,DataFile,Score
 #include "TitleScene.h"		// TitleScene,Graphics,Keyboard
-#include "ItemChangeScene.h"// IC_Scene, Graphics, Keyboard, Mouse, ItemMgr
 
 class SceneMgr
 {
