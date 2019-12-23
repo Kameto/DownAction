@@ -28,7 +28,6 @@ typedef enum MainGraphs
 	mCandela,	// カンデラ
 	mMask,		// マスク
 	mCrystal,	// 水晶のネックレス
-	mNecless,	// 星型ネックレス
 	mMap,		// 宝の地図
 	mAll_num	// 総数
 }MG;

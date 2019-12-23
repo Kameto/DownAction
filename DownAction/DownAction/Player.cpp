@@ -211,11 +211,11 @@ void Player::Draw()
 	DrawRotaGraph(96, 512, 1.30, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
 	for (int i = 0; i < ItemMgr::possItem; i++)
 	{
-		if (ItemMgr::possItemFlag[i] == true)
+		if (ItemMgr::possItemFlag[ItemMgr::setItem[i]] == true)
 		{
-			if (((int)MG::mCandela + i) < (int)MG::mAll_num)
+			if (((int)MG::mCandela + ItemMgr::setItem[i]) < (int)MG::mAll_num)
 			{
-				DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela + i), true, false);
+				DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela + ItemMgr::setItem[i]), true, false);
 			}
 			else
 			{
