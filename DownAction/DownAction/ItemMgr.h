@@ -19,5 +19,5 @@ public:
 	static bool* possItemFlag;		// アイテムフラグ
 	static const int possItem = 3;	// アイテム所持数
 	static bool possMaxFlag;		// 上限までアイテムを持っているか確認フラグ
-	static int* setItem;			// 所持アイテム参照　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　変数
+	static int* setItem;			// 所持アイテム参照変数
 };

@@ -29,6 +29,7 @@ ItemMgr::ItemMgr()
 ItemMgr::~ItemMgr()
 {
 	delete[] possItemFlag;
+	delete[] setItem;
 	possMaxFlag = false;
 }
 
