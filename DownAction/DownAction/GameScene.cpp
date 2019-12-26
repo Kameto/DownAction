@@ -50,12 +50,15 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
+#ifdef _DEBUG
+#else
 	// スコア・タイム記憶
 	if (goalFlag == true || overFlag == true)
 	{
 		DataFile::time.push_back(tw->GetTime());
 		DataFile::score.push_back(Score::score);
 	}
+#endif
 	Score::ScoreReset();
 	
 	// ポインター初期化

@@ -6,11 +6,11 @@
 
 enum class SceneName
 {
-	eTitle,
-	eGame,
-	eResult,
-	eResult2,
-	eIC_Scene
+	eTitle,		// タイトル
+	eIC_Scene,	// アイテム変更
+	eGame,		// ゲーム
+	eResult,	// リザルト
+	eResult2	// 途中リザルト
 };
 
 class BaseScene

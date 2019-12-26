@@ -17,9 +17,12 @@ ItemMgr::ItemMgr()
 	{
 		setItem[i] = -1;
 	}
+#ifdef _DEBUG
 	setItem[0] = (int)ItemName::IN_mCandela;
 	setItem[1] = (int)ItemName::IN_mCrystal;
 	setItem[2] = (int)ItemName::IN_mMap;
+#else
+#endif
 	possMaxFlag = false;
 }
 
