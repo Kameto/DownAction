@@ -55,6 +55,12 @@ void TitleScene::Update()
 			// 音楽プレーヤー再生
 			system("start StageCreater.exe");
 		}
+
+		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_Z) > 0) ||
+			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_BACK) > 20))
+		{
+			BaseScene::nowScene = SceneName::eIC_Scene;
+		}
 	}
 	else if (sceneFlag == true)
 	{

@@ -42,6 +42,12 @@ typedef enum Chara_State
 	mCnum		// ‘”
 }CS;
 
+struct G_Size
+{
+	int sx;
+	int sy;
+};
+
 class Graphics
 {
 public:

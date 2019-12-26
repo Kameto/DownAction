@@ -42,7 +42,7 @@ void SceneMgr::ChangeScene()
 		mpScene = new ResultScene2();
 		break;
 	case SceneName::eIC_Scene:
-		mpScene = new IC_Scene();
+		mpScene = new ItemChangeScene();
 		break;
 	default:
 		break;

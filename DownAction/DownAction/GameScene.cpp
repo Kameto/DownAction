@@ -10,7 +10,7 @@ GameScene::GameScene()
 	tw	 = new TimeWatch();
 	
 	std::string path[3];
-	if (BaseScene::nowStage != 0)
+	if (BaseScene::nowStage > 0)
 	{
 		path[0] = "datafile/block/blocks(" + std::to_string(BaseScene::nowStage) + ").csv";
 		path[1] = "datafile/item/item(" + std::to_string(BaseScene::nowStage) + ").csv";
@@ -115,8 +115,8 @@ void GameScene::StageRelease()
 		{
 			DEL_OBJ(block[i]);
 		}
+		block.erase(block.begin(), block.end());
 	}
-	block.erase(block.begin(), block.end());
 	block.shrink_to_fit();
 	if (!item.empty())
 	{
@@ -124,8 +124,8 @@ void GameScene::StageRelease()
 		{
 			DEL_OBJ(item[i]);
 		}
+		item.erase(item.begin(), item.end());
 	}
-	item.erase(item.begin(), item.end());
 	item.shrink_to_fit();
 	if (!enemy.empty())
 	{
@@ -133,8 +133,8 @@ void GameScene::StageRelease()
 		{
 			DEL_OBJ(enemy[i]);
 		}
+		enemy.erase(enemy.begin(), enemy.end());
 	}
-	enemy.erase(enemy.begin(), enemy.end());
 	enemy.shrink_to_fit();
 }
 
@@ -383,7 +383,14 @@ void GameScene::Update()
 
 			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
 			{
-				BaseScene::nowScene = SceneName::eResult;
+				if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
+				{
+					BaseScene::nowScene = SceneName::eResult2;
+				}
+				else
+				{
+					BaseScene::nowScene = SceneName::eResult;
+				}
 			}
 		}
 		else
