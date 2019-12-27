@@ -42,6 +42,7 @@ void TitleScene::Update()
 			sele = MG::mEnd;
 		}
 		
+		// スコア参照
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0) || 
 			(JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) > 20))
 		{
@@ -49,6 +50,7 @@ void TitleScene::Update()
 			//system("start firefox.exe file://D:/GitFiles/DownAction/DownAction/DownAction/datafile/scorefile/scoreData.html");
 		}
 
+		// 図鑑起動
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0) ||
 			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_LEFT_SHOULDER) > 20))
 		{

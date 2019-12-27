@@ -29,6 +29,8 @@ typedef enum MainGraphs
 	mMask,		// マスク
 	mCrystal,	// 水晶のネックレス
 	mMap,		// 宝の地図
+	mPortal,	// 転移ポータル
+	mMagia,		// 魔法の本
 	mAll_num	// 総数
 }MG;
 

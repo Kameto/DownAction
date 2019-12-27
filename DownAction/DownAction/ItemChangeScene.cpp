@@ -134,7 +134,7 @@ void ItemChangeScene::UI_Draw()
 		// アイテム数がオーバーフローしていなくて、アイテムを所持していて、画像が存在しているなら
 		if ((int)ItemName::mAll > i + (nHei * 5) && ItemMgr::possItemFlag[i + (nHei * n)] == true && ((int)MG::mCandela + i) < (int)MG::mAll_num)
 		{
-			DrawRotaGraph(600 + (i * 192), 540, 0.45, 0.0, Graphics::GetMainGraph(MG::mCandela + i + (nHei * n)), true, false);
+			DrawRotaGraph(600 + (i * 192), 540, 0.45, 0.0, Graphics::GetMainGraph(MG::mCandela + i + (nHei * n) + nHei), true, false);
 		}
 		else
 		{

@@ -6,8 +6,9 @@ typedef enum class ItemName
 	IN_mMask,		// マスク
 	IN_mCrystal,	// 水晶のネックレス
 	IN_mMap,		// 宝の地図
-	IN_C,			// 未実装
-	mAll,
+	IN_mPortal,		// 転移ポータル
+	IN_mMagia,		// 魔法の本
+	mAll
 }IName;
 
 class ItemMgr

@@ -9,8 +9,7 @@ ResultScene2::ResultScene2()
 	counter[3] = 0;
 	rand = MyRand::GetRand() % (int)ItemName::mAll;
 #ifdef _DEBUG
-#else
-	if (ItemMgr::possMaxFlag == false)
+	if (ItemMgr::CheckItem() == false)
 	{
 		while (true)
 		{
@@ -32,6 +31,7 @@ ResultScene2::ResultScene2()
 			}
 		}
 	}
+#else
 #endif
 	sceneFlag = false;
 }

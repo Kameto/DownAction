@@ -5,7 +5,12 @@ bool BaseScene::endFlag = false;
 int BaseScene::counter = 0;
 int BaseScene::nowStage = 0;
 int BaseScene::stageNum = 3;
+
+#ifdef _DEBUG
+bool BaseScene::firstFlag = false;
+#else
 bool BaseScene::firstFlag = true;
+#endif
 
 SceneName BaseScene::GetNowScene()
 {
