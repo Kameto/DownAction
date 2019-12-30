@@ -19,6 +19,10 @@ ItemChangeScene::~ItemChangeScene()
 	{
 		for (int i = 0; i < ItemMgr::possItem; i++)
 		{
+			if (nowItem[i] == -1)
+			{
+				nowItem[i] = 0;
+			}
 			ItemMgr::setItem[i] = nowItem[i];
 		}
 		cFlag = false;
@@ -148,19 +152,19 @@ void ItemChangeScene::UI_Draw()
 	}
 	DrawBoxAA(600 + (nWid * 192) - 96, 540 - 96, 600 + (nWid * 192) + 96, 540 + 96, 0xFF00FF, false, 10.0f);
 
-	// (x1, y1, x2, y2, x3, y3) // (左下、右下、頂点)
+	// ▲
 	if (this->heiR.max > nHei)
 	{
 		DrawTriangleAA(tp[0][0] - 96, tp[0][1], tp[0][0] + 96, tp[0][1], tp[0][0], tp[0][1] - 96, 0xFF00FF, true, 10.0f);
 		DrawTriangleAA(tp[0][0] - 96, tp[0][1], tp[0][0] + 96, tp[0][1], tp[0][0], tp[0][1] - 96, 0xFFFF00, false, 10.0f);
-		DrawExtendFormatString(tp[0][0] + 128, tp[0][1], 1.5, 1.5, 0x000000, "UP Arrow Key");
+		DrawExtendFormatString(tp[0][0] + 128, tp[0][1], 1.5, 1.5, 0xFFFFFF, "UP Arrow Key");
 	}
 
 	if (this->heiR.min < nHei)
 	{
 		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFF00FF, true, 10.0f);
 		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFFFF00, false, 10.0f);
-		DrawExtendFormatString(tp[1][0] + 128, tp[1][1], 1.5, 1.5, 0x0000ccc00, "DOWN Arrow Key");
+		DrawExtendFormatString(tp[1][0] + 128, tp[1][1], 1.5, 1.5, 0x000000, "DOWN Arrow Key");
 	}
 
 #ifdef _DEBUG

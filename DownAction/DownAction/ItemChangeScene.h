@@ -33,7 +33,7 @@ private:
 	const int tp[2][2] = { { 900, 350}, { 900, 750} };// { x, y}
 	bool cFlag;
 	const MRange widR{ 0, 4 };
-	const MRange heiR{ 0, (((int)ItemName::mAll) % widR.max) - 1 };
+	const MRange heiR{ 0, (((int)ItemName::mAll) / widR.max) - 1 };
 	/**************/
 };
 typedef ItemChangeScene IC_Scene;

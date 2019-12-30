@@ -8,6 +8,9 @@ typedef enum class ItemName
 	IN_mMap,		// 宝の地図
 	IN_mPortal,		// 転移ポータル
 	IN_mMagia,		// 魔法の本
+	IN_mPaper,		// お札
+	IN_mKnife,		// ナイフ
+	IN_mMusicPlayer,// 音楽プレーヤー
 	mAll
 }IName;
 

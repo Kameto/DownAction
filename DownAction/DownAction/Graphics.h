@@ -32,6 +32,9 @@ typedef enum MainGraphs
 	mMap,		// 宝の地図
 	mPortal,	// 転移ポータル
 	mMagia,		// 魔法の本
+	mPaper,		// お札
+	mKnife,		// ナイフ
+	mMusicPlayer,// 音楽プレーヤー
 	mAll_num	// 総数
 }MG;
 
