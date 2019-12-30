@@ -15,16 +15,23 @@ public:
 	Player(); 
 	~Player();
 	void Update();
-	void StateUpdate();
 	void Draw();
-	Dir dir;
-	static int enegy;
-	int life;
-	int counter[4];
-	unsigned int bCount;// ブロック透過カウント
-	bool actionFlag;
-	bool damegeFlag;
-	bool fuwaFlag;
-	bool kataFlag;
-	bool blockFlag;// 透過しているか判別フラグ
+	void StateUpdate();
+
+	/****　static　****/
+	static int enegy;	// 変身エナジー
+	/******************/
+	
+	/****　 local　****/
+	Dir dir;			// 向き
+	int life;			// 体力
+	int counter[4];		// カウンター
+	int bCount;			// ブロック透過カウント
+	int wCount;			// ワープ回数カウント
+	bool actionFlag;	// 
+	bool damegeFlag;	// 被弾フラグ
+	bool fuwaFlag;		// 変身フラグ
+	bool kataFlag;		// 変身フラグ
+	bool blockFlag;		// 透過しているか判別フラグ
+	/******************/
 };

@@ -22,6 +22,7 @@ Player::Player()
 	counter[2]		 = 0;
 	counter[3]		 = 0;
 	bCount			 = 3;
+	wCount			 = 5;
 	actionFlag		 = false;
 	damegeFlag		 = false;
 	fuwaFlag		 = false;
@@ -118,12 +119,17 @@ void Player::StateUpdate()
 	}
 
 	// ブロック透過用処理
-	if (bCount != 0 && blockFlag == false && Keyboard::GetKey(KEY_INPUT_C) == 1 && ItemMgr::possItemFlag[(int)ItemName::IN_mMask] == true)
+	if (bCount > 0
+		&& blockFlag == false 
+		&& Keyboard::GetKey(KEY_INPUT_C) == 1
+		&& ItemMgr::possItemFlag[(int)ItemName::IN_mMask] == true
+		&& (ItemMgr::setItem[0] == (int)ItemName::IN_mMask
+			|| ItemMgr::setItem[1] == (int)ItemName::IN_mMask
+			|| ItemMgr::setItem[2] == (int)ItemName::IN_mMask))
 	{
 		blockFlag = true;
 		counter[3] = 0;
 	}
-
 	if (blockFlag == true)
 	{
 		if (counter[3] < 120)
@@ -134,8 +140,26 @@ void Player::StateUpdate()
 		{
 			blockFlag = false;
 			bCount--;
-			bCount--;
 		}
+	}
+
+	// ワープ処理
+	if (wCount > 0 
+		&& Keyboard::GetKey(KEY_INPUT_F) == 1
+		&& ItemMgr::possItemFlag[(int)ItemName::IN_mPortal] == true
+		&& (ItemMgr::setItem[0] == (int)ItemName::IN_mPortal 
+			|| ItemMgr::setItem[1] == (int)ItemName::IN_mPortal
+			|| ItemMgr::setItem[2] == (int)ItemName::IN_mPortal))
+	{
+		if (dir == Dir::mLeft)
+		{
+			mpPoint->cx -= 256;
+		}
+		else
+		{
+			mpPoint->cx += 256;
+		}
+		wCount--;
 	}
 }
 

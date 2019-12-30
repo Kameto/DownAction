@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+// mainフォルダ内画像名
 typedef enum MainGraphs
 {
 	mTitle,		// タイトル
@@ -34,6 +35,7 @@ typedef enum MainGraphs
 	mAll_num	// 総数
 }MG;
 
+// キャラクター状態
 typedef enum Chara_State
 {
 	mNomal,		// 通常時
@@ -44,18 +46,13 @@ typedef enum Chara_State
 	mCnum		// 総数
 }CS;
 
-struct G_Size
-{
-	int sx;
-	int sy;
-};
-
 class Graphics
 {
 public:
 	Graphics();
 	~Graphics();
 
+	/*** ThisScene ***/
 	// ロード処理
 	static void LoadMainGraph();
 	static void LoadPlayerGraph();
@@ -67,11 +64,14 @@ public:
 	static int GetPlayerGraph(int);
 	static int GetEnemyGraph(int);
 	static int GetCrystalGraph(int);
+	/*****************/
 
 private:
+	/*** static ***/
 	static int m_gr[MG::mAll_num];
 	static int p_gr[CS::mCnum];
 	static int e_gr[CS::mCnum];
 	static int b_gr[6];
+	/**************/
 };
 typedef Graphics Graph;
