@@ -571,12 +571,14 @@ void GameScene::Draw()
 	// プレイヤー変身フラグ
 	DrawString(0, 192, p1->fuwaFlag ? "fuwaFlag : true" : "fuwaFlag : false", 0xFFFFFF);
 	DrawString(0, 224, p1->kataFlag ? "kataFlag : true" : "kataFlag : false", 0xFFFFFF);
+	DrawFormatString(0, 256, 0xFFFFFFF, "bCount : %d___wCount : %d", p1->bCount, p1->wCount);
 
 	// 敵数表示
-	DrawFormatString(0, 256, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
+	DrawFormatString(0, 288, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
 
 	// アイテムフラグ
 	DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
+	DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
 
 	// ブロックの状態
 	/*for (int i = 0, n = (unsigned)block.size(); i < n; i++)

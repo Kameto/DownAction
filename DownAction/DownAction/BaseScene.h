@@ -21,12 +21,12 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	SceneName GetNowScene();
+	void EndInput();
 	static bool endFlag;
 
 protected:
 	void FadeOut(SceneName);
 	void FadeIn();
-	void EndInput();
 	static SceneName nowScene;
 	static bool firstFlag;
 	static int counter;

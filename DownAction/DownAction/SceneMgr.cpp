@@ -51,6 +51,7 @@ void SceneMgr::ChangeScene()
 
 void SceneMgr::SceneUpdate() 
 {
+	mpScene->EndInput();
 	preScene = mpScene->GetNowScene();
 	mpScene->Update();
 	if (mpScene->GetNowScene() != preScene)
