@@ -7,12 +7,16 @@ TitleScene::TitleScene()
 	sceneFlag = false;
 	startFlag = true;
 	SetDrawBright(0, 0, 0);
+	cmtCounter = 0;
+	cmtFlag = false;
 }
 
 TitleScene::~TitleScene()
 {
 	sele = MG::mStart;
 	sceneFlag = false;
+	cmtCounter = 0;
+	cmtFlag = false;
 }
 
 void TitleScene::Update()
@@ -59,7 +63,7 @@ void TitleScene::Update()
 		}
 
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_Z) > 0) ||
-			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_BACK) > 20))
+			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) > 20))
 		{
 			BaseScene::nowScene = SceneName::eIC_Scene;
 		}
@@ -77,6 +81,24 @@ void TitleScene::Update()
 			BaseScene::counter = 0;
 		}
 	}
+
+
+	if (cmtCounter < 256)
+	{
+		cmtCounter++;
+	}
+	else
+	{
+		cmtCounter = 0;
+		if (cmtFlag == false)
+		{
+			cmtFlag = true;
+		}
+		else
+		{
+			cmtFlag = false;
+		}
+	}
 }
 
 void TitleScene::Draw() 
@@ -91,7 +113,18 @@ void TitleScene::Draw()
 	DrawGraph(0, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 
-	DrawExtendString(650, 1020, 2.0, 2.0, "矢印キー↑↓で選択。Enterキーで決定。", 0xFFFFFF);
+	DrawExtendString(650, 960, 2.0, 2.0, "矢印キー↑↓で選択。Enterキーで決定。", 0xFFFFFF);
+	
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, cmtCounter);
+	if (cmtFlag == false)
+	{
+		DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "C + Z　でアイテム選択画面　C + S　でスコア表示　C + X　で音楽プレーヤー起動");
+	}
+	else
+	{
+		DrawExtendFormatString(265, 1020, 2.0, 2.0, 0xFFFFFF, "← + START でアイテム選択画面　← + L1 でスコア表示　← + R1 で音楽プレーヤー起動");
+	}
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 
 #ifdef _DEBUG
 	DrawFormatString(0, 0, 0xFFFFFF, "%d", BaseScene::counter );

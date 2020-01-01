@@ -12,7 +12,9 @@ public:
 	void Update();
 	void Draw();
 
+	int cmtCounter;
 	int sele;
 	bool sceneFlag;
 	bool startFlag;
+	bool cmtFlag;
 };
