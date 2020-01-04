@@ -8,6 +8,7 @@ int* ItemMgr::setItem = nullptr;
 ItemMgr::ItemMgr()
 {
 	possItemFlag = new bool[(int)ItemName::mAll];
+#ifdef _DEBUG
 	for (int i = 0; i < (int)ItemName::mAll; i++)
 	{
 		possItemFlag[i] = true;
@@ -17,11 +18,19 @@ ItemMgr::ItemMgr()
 	{
 		setItem[i] = -1;
 	}
-#ifdef _DEBUG
 	setItem[0] = (int)ItemName::IN_mMask;
 	setItem[1] = (int)ItemName::IN_mPortal;
 	setItem[2] = (int)ItemName::IN_mMap;
 #else
+	for (int i = 0; i < (int)ItemName::mAll; i++)
+	{
+		possItemFlag[i] = false;
+	}
+	setItem = new int[possItem];
+	for (int i = 0; i < possItem; i++)
+	{
+		setItem[i] = -1;
+	}
 #endif
 	possMaxFlag = false;
 }

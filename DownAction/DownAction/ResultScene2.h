@@ -15,4 +15,6 @@ private:
 	int counter[4];
 	int rand;
 	bool sceneFlag;
+	bool moveFlag;
+	bool checkFlag;
 };

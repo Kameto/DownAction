@@ -49,6 +49,13 @@ typedef enum Chara_State
 	mCnum		// ‘”
 }CS;
 
+enum Moji
+{
+	mDoxuru,	// ƒhƒDƒ‹ƒ‹ƒ‹
+	mDen,		// ƒfƒ“
+	mMoji_All
+};
+
 class Graphics
 {
 public:
@@ -61,12 +68,14 @@ public:
 	static void LoadPlayerGraph();
 	static void LoadEnemyGraph();
 	static void LoadCrystalGraph();
+	static void LoadMojiGraph();
 
 	// æ“¾ˆ—
 	static int GetMainGraph(int);
 	static int GetPlayerGraph(int);
 	static int GetEnemyGraph(int);
 	static int GetCrystalGraph(int);
+	static int GetMojiGraph(int);
 	/*****************/
 
 private:
@@ -75,6 +84,7 @@ private:
 	static int p_gr[CS::mCnum];
 	static int e_gr[CS::mCnum];
 	static int b_gr[6];
+	static int mo_gr[Moji::mMoji_All];
 	/**************/
 };
 typedef Graphics Graph;

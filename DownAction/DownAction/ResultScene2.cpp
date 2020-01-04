@@ -8,8 +8,8 @@ ResultScene2::ResultScene2()
 	counter[2] = 0;
 	counter[3] = 0;
 	rand = MyRand::GetRand() % (int)ItemName::mAll;
-#ifdef _DEBUG
-	if (ItemMgr::CheckItem() == false)
+	checkFlag = ItemMgr::CheckItem();
+	if (checkFlag == false)
 	{
 		while (true)
 		{
@@ -30,10 +30,17 @@ ResultScene2::ResultScene2()
 				}
 			}
 		}
+
+		for (int i = 0, n = ItemMgr::possItem; i < n; i++)
+		{
+			if (ItemMgr::setItem[i] == -1)
+			{
+				ItemMgr::setItem[i] = rand;
+			}
+		}
 	}
-#else
-#endif
 	sceneFlag = false;
+	moveFlag = true;
 }
 
 ResultScene2::~ResultScene2()
@@ -45,40 +52,41 @@ ResultScene2::~ResultScene2()
 	counter[3] = 0;
 	rand = 0;
 	sceneFlag = false;
+	moveFlag = false;
 }
 
 void ResultScene2::Update() 
 {
-	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+	// キャラの移動とか
+	if (moveFlag)
 	{
-		sceneFlag = true;
-	}
-
-	if (rand == 0)
-	{
-		if (counter[0] < 150)
+		counter[2] += 4;
+		if (counter[2] == 480)
 		{
-			counter[0]++;
+			moveFlag = false;
+		}
+
+		if (counter[2] > 960)
+		{
+			sceneFlag = true;
+		}
+	}
+	else
+	{
+		if (counter[3] < 200)
+		{
+			counter[3]++;
 		}
 		else
 		{
-			if (counter[1] < 5)
+			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
 			{
-				counter[1]++;
-			}
-			else
-			{
-				counter[1] = 0;
-				counter[0] = 0;
+				moveFlag = true;
 			}
 		}
 	}
 
-	if (counter[2] < 490)
-	{
-		counter[2] += 4;
-	}
-
+	// シーン切替
 	if (sceneFlag == true)
 	{
 		BaseScene::FadeOut(SceneName::eGame);
@@ -87,20 +95,45 @@ void ResultScene2::Update()
 
 void ResultScene2::Draw() 
 {
-	DrawExtendFormatString(600, 128, 1.5, 1.5, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
+	DrawGraph(0, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
+	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
+
+#ifdef _DEBUG
+	DrawExtendFormatString(1920 / 2, 128, 2.5, 2.5, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
+	DrawExtendFormatString(1920 / 2, 192, 2.5, 2.5, 0xFFFFFF, "counter[3] : %d",counter[3]);
+#endif
 
 	// プレイヤー
-	if (counter[2] < 490)
-	{
-		DrawRotaGraph(920, counter[2] - 16, 1.0, 0.0, Graphics::GetPlayerGraph(CS::mDown), true);
-	}
-	else
-	{
-		DrawRotaGraph(920, counter[2] - 16, 1.0, 0.0, Graphics::GetPlayerGraph(CS::mNomal), true);
-	}
+	DrawRotaGraph(WIND_WIDTH / 2, counter[2] - 16, 1.0, 0.0, Graphics::GetPlayerGraph(CS::mDown), true);
 
 	if (sceneFlag == true)
 	{
 		SetDrawBright(255 - BaseScene::counter, 255 - BaseScene::counter, 255 - BaseScene::counter);
+	}
+
+	// アイテム
+	if (moveFlag == false)
+	{
+		if (counter[3] < 200)
+		{
+			DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 - 288, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDoxuru), true, false);
+			DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 256, 0.7, 0.0, Graphics::GetMainGraph(MG::mCandela + (counter[3] % (int)ItemName::mAll) - 1), false, false);
+			DrawBoxAA(WIND_WIDTH / 2 - 256, WIND_HEIGHT / 2 - 256 + 256, WIND_WIDTH / 2 + 256, WIND_HEIGHT / 2 + 256 + 256, 0xFFFFFF, false, 10.0f);
+		}
+		else
+		{
+			if (checkFlag)
+			{
+				DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256,5.5, 5.5, 0xFFFFFF, "Item Complate !!!");
+			}
+			else
+			{
+				DrawRotaGraph(WALL_WIDTH + 128, WIND_HEIGHT / 2, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDen), true, false);
+				DrawRotaGraph(1920 - WALL_WIDTH - 128, WIND_HEIGHT / 2, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDen), true, false);
+				DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 224, 0.7, 0.0, Graphics::GetMainGraph(MG::mCandela + rand), false, false);
+				DrawBoxAA(WIND_WIDTH / 2 - 256, WIND_HEIGHT / 2 - 256 + 224, WIND_WIDTH / 2 + 256, WIND_HEIGHT / 2 + 256 + 224, 0xFFFFFF, false, 10.0f);
+			}
+			DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 + 488, 2.5, 2.5, 0xFFFFFF, "Enter キー　か Aボタン　=>　次のステージ");
+		}
 	}
 }
