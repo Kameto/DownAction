@@ -68,7 +68,7 @@ void TitleScene::Update()
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0) ||
 			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_LEFT_SHOULDER) > 20))
 		{
-			string fileName =  "PictureBook.exe";
+			string fileName =  "ステージ作成ツール.exe";
 			fs::path Path = fs::absolute(fileName);
 			if (fs::exists(Path))
 			{
