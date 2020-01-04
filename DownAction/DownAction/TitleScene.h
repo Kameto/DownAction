@@ -1,7 +1,11 @@
 #pragma once
+#include <filesystem>
+#include <tchar.h>
 #include <process.h>
 #include "BaseScene.h"
 #include "Player.h"
+
+namespace fs = filesystem;
 
 class TitleScene
 	: public BaseScene

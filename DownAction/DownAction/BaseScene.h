@@ -4,6 +4,8 @@
 #include "ItemMgr.h"
 #include "JoyPad.h"
 
+using namespace std;
+
 enum class SceneName
 {
 	eTitle,		// ƒ^ƒCƒgƒ‹
