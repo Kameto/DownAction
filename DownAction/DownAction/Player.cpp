@@ -232,24 +232,24 @@ void Player::Draw()
 #endif
 
 	// アイテムボックスとか
-	DrawRotaGraph(96, 512, 1.30, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
+	DrawRotaGraph(96, 512, 2.0, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
 	for (int i = 0; i < ItemMgr::possItem; i++)
 	{
 		if (ItemMgr::possItemFlag[ItemMgr::setItem[i]] == true)
 		{
 			if (((int)MG::mCandela + ItemMgr::setItem[i]) < (int)MG::mAll_num)
 			{
-				DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.30, 0.0, Graphics::GetMainGraph(MG::mCandela + ItemMgr::setItem[i]), true, false);
+				DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mCandela + ItemMgr::setItem[i]), false, false);
 			}
 			else
 			{
-				DrawCircle(96, 390 + ((128 * i) - (i * 3)), 30, 0xFF0000, true);
+				DrawCircle(96, 320 + ((192 * i)), 30, 0xFF0000, true);
 			}
 		}
 		else
 		{
-			DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
-			DrawRotaGraph(96, 390 + ((128 * i) - (i * 3)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
+			DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
+			DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
 		}
 	}
 

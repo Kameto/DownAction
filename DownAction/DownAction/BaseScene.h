@@ -1,10 +1,14 @@
 #pragma once
+#include <filesystem>
+#include <tchar.h>
+#include <process.h>
 #include "Keyboard.h"
 #include "Graphics.h"
 #include "ItemMgr.h"
 #include "JoyPad.h"
 
 using namespace std;
+namespace fs = filesystem;
 
 enum class SceneName
 {

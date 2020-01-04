@@ -101,6 +101,22 @@ void ItemChangeScene::UI_Update()
 	{
 		cFlag = false;
 	}
+
+	if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0)
+	{
+		string fileName = "アイテム図鑑.exe";
+		fs::path Path = fs::absolute(fileName);
+		if (fs::exists(Path))
+		{
+			// 図鑑の表示
+			const string s = "start " + Path.string<char>();
+			system(s.c_str());
+		}
+		else
+		{
+
+		}
+	}
 }
 
 void ItemChangeScene::UI_Draw()
@@ -112,27 +128,27 @@ void ItemChangeScene::UI_Draw()
 	DrawCircle(1600 - 32, 1080, 600,0x00FF00, true);
 
 	// 所持アイテムボックス
-	DrawRotaGraph(256, 540, 3.0, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
+	DrawRotaGraph(256, 540, 3.0, PI / 2, Graphics::GetMainGraph(MG::mItemBox), true, false);
 
 	// セットアイテム描画
 	for (int i = 0; i < ItemMgr::possItem; i++)
 	{
 		if (nowItem[i] != -1)
 		{
-			DrawRotaGraph(256, 256 + (i * 288), 0.65, 0.0, Graphics::GetMainGraph(MG::mCandela + nowItem[i]), true, false);
+			DrawRotaGraph(256, 256 + (i * 288), 0.65, 0.0, Graphics::GetMainGraph(MG::mCandela + nowItem[i]), false, false);
 		}
 	}
 
 	// 所持アイテム描画
 	for (int i = 0, n = widR.max; i <= n; i++)
 	{
-		DrawBox(600 + (i * 192) - 96, 540 - 96, 600 + (i * 192) + 96, 540 + 96, 0x000000, true);
-		DrawBox(600 + (i * 192) - 86, 540 - 86, 600 + (i * 192) + 86, 540 + 86, 0xFFFFFF, true);
-
+		DrawBox(600 + (i * 192) - 100, 540 - 100, 600 + (i * 192) + 100, 540 + 100, 0xFF7F50, true);
+		DrawBox(600 + (i * 192) - 96, 540 - 96, 600 + (i * 192) + 96, 540 + 96, 0xFFFFFF, true);
+		
 		// アイテム数がオーバーフローしていなくて、アイテムを所持していて、画像が存在しているなら
 		if ((int)ItemName::mAll > i + (nHei * 5) && ItemMgr::possItemFlag[i + (nHei * n)] == true && ((int)MG::mCandela + i) < (int)MG::mAll_num)
 		{
-			DrawRotaGraph(600 + (i * 192), 540, 0.45, 0.0, Graphics::GetMainGraph(MG::mCandela + i + (nHei * n) + nHei), true, false);
+			DrawRotaGraph(600 + (i * 192), 540, 0.75, 0.0, Graphics::GetMainGraph(MG::mCandela + i + (nHei * n) + nHei), false, false);
 		}
 		else
 		{
@@ -166,6 +182,7 @@ void ItemChangeScene::UI_Draw()
 		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFFFF00, false, 10.0f);
 		DrawExtendFormatString(tp[1][0] + 128, tp[1][1], 1.5, 1.5, 0x000000, "DOWN Arrow Key");
 	}
+	DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "C + X　で アイテム図鑑");
 
 #ifdef _DEBUG
 	DrawExtendFormatString(1920 / 2 - 192, 100, 1.0, 1.0, 0xFFFFFF, "back to title => push tab key");
