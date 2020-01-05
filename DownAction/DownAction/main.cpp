@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #include <DxLib.h>
 #include "SceneMgr.h"
 #include "FPS.hpp"

@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #include "Graphics.h"
 
 int Graphics::m_gr[MG::mAll_num] = { {NULL} };

@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #include "ItemChangeScene.h"
 
 ItemChangeScene::ItemChangeScene()
@@ -148,11 +153,12 @@ void ItemChangeScene::UI_Draw()
 	// 所持アイテム描画
 	for (int i = 0, n = widR.max; i <= n; i++)
 	{
+		// アイテム背景ボックス
 		DrawBox(600 + (i * 192) - 100, 540 - 100, 600 + (i * 192) + 100, 540 + 100, 0xFF7F50, true);
 		DrawBox(600 + (i * 192) - 96, 540 - 96, 600 + (i * 192) + 96, 540 + 96, 0xFFFFFF, true);
 		
 		// アイテム数がオーバーフローしていなくて、アイテムを所持していて、画像が存在しているなら
-		if ((int)ItemName::mAll > i + (nHei * 5) && ItemMgr::possItemFlag[i + (nHei * n)] == true && ((int)MG::mCandela + i) < (int)MG::mAll_num)
+		if ((int)ItemName::mAll > i + (nHei * 5) && ItemMgr::possItemFlag[i + (nHei * n) + nHei] == true && ((int)MG::mCandela + i) < (int)MG::mAll_num)
 		{
 			DrawRotaGraph(600 + (i * 192), 540, 0.75, 0.0, Graphics::GetMainGraph(MG::mCandela + i + (nHei * n) + nHei), false, false);
 		}

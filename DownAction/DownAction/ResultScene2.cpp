@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #include "ResultScene2.h"
 
 ResultScene2::ResultScene2() 
@@ -36,6 +41,7 @@ ResultScene2::ResultScene2()
 			if (ItemMgr::setItem[i] == -1)
 			{
 				ItemMgr::setItem[i] = rand;
+				break;
 			}
 		}
 	}
@@ -117,8 +123,8 @@ void ResultScene2::Draw()
 		if (counter[3] < 200)
 		{
 			DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 - 288, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDoxuru), true, false);
-			DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 256, 0.7, 0.0, Graphics::GetMainGraph(MG::mCandela + (counter[3] % (int)ItemName::mAll) - 1), false, false);
-			DrawBoxAA(WIND_WIDTH / 2 - 256, WIND_HEIGHT / 2 - 256 + 256, WIND_WIDTH / 2 + 256, WIND_HEIGHT / 2 + 256 + 256, 0xFFFFFF, false, 10.0f);
+			DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 224, 1.5, 0.0, Graphics::GetMainGraph(MG::mCandela + (counter[3] % (int)ItemName::mAll)), false, false);
+			DrawBoxAA(WIND_WIDTH / 2 - 256, WIND_HEIGHT / 2 - 256 + 224, WIND_WIDTH / 2 + 256, WIND_HEIGHT / 2 + 256 + 224, 0xFFFFFF, false, 10.0f);
 		}
 		else
 		{
@@ -130,7 +136,7 @@ void ResultScene2::Draw()
 			{
 				DrawRotaGraph(WALL_WIDTH + 128, WIND_HEIGHT / 2, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDen), true, false);
 				DrawRotaGraph(1920 - WALL_WIDTH - 128, WIND_HEIGHT / 2, 1.5, 0.0, Graphics::GetMojiGraph(Moji::mDen), true, false);
-				DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 224, 0.7, 0.0, Graphics::GetMainGraph(MG::mCandela + rand), false, false);
+				DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2 + 224, 1.5, 0.0, Graphics::GetMainGraph(MG::mCandela + rand), false, false);
 				DrawBoxAA(WIND_WIDTH / 2 - 256, WIND_HEIGHT / 2 - 256 + 224, WIND_WIDTH / 2 + 256, WIND_HEIGHT / 2 + 256 + 224, 0xFFFFFF, false, 10.0f);
 			}
 			DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 + 488, 2.5, 2.5, 0xFFFFFF, "Enter キー　か Aボタン　=>　次のステージ");

@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #pragma once
 #include "GameScene.h"		// GameScene,Graphics,Keyboard,DataFile,Score
 #include "ResultScene.h"	// ResulScene,Graphics,Keyboard,DataFile,Score

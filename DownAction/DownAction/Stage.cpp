@@ -1,3 +1,8 @@
+/*
+学籍番号：j17086
+名前：亀田朋来
+*/
+
 #include "Stage.h"
 std::vector<std::vector<int>>Stage::data;
 int Stage::dataCount;
