@@ -12,21 +12,41 @@ ResultScene::ResultScene()
 	counter[1] = 0;
 	counter[2] = 0;
 	counter[3] = 0;
-	rand = MyRand::GetRand() % 3;
-	if (rand == 1)
+	rand[0] = MyRand::GetRand() % 3;
+	if (rand[0] == 1)
 	{
-		if (ItemMgr::possMaxFlag == false)
+		rand[1] = MyRand::GetRand() % (int)ItemName::mAll;
+		checkFlag = ItemMgr::CheckItem();
+		if (checkFlag == false)
 		{
-			int a = MyRand::GetRand() % 5;
-			for (int i = a; i < ItemMgr::possItem; i++)
+			while (true)
 			{
-				if (ItemMgr::possItemFlag[i] == false)
+				if (ItemMgr::possItemFlag[rand[1]] == false)
 				{
-					ItemMgr::possItemFlag[i] = true;
+					ItemMgr::possItemFlag[rand[1]] = true;
+					break;
+				}
+				else
+				{
+					if (rand[1] == ((int)ItemName::mAll - 1))
+					{
+						rand[1] = 0;
+					}
+					else
+					{
+						rand[1]++;
+					}
+				}
+			}
+
+			for (int i = 0, n = ItemMgr::possItem; i < n; i++)
+			{
+				if (ItemMgr::setItem[i] == -1)
+				{
+					ItemMgr::setItem[i] = rand[1];
 					break;
 				}
 			}
-			ItemMgr::possMaxFlag = ItemMgr::CheckItem();
 		}
 	}
 	sceneFlag = false;
@@ -39,7 +59,7 @@ ResultScene::~ResultScene()
 	counter[1] = 0;
 	counter[2] = 0;
 	counter[3] = 0;
-	rand = 0;
+	rand[0] = rand[1] = 0;
 	sceneFlag = false;
 }
 
@@ -93,12 +113,12 @@ void ResultScene::Draw()
 	{
 		DrawRotaGraph(860, 316, 1.0, 0.0, Graphics::GetMainGraph(MG::mComment2), true);
 	}
-	if (rand == 0)
+	if (rand[0] == 0)
 	{
 		DrawRotaGraph(845, 460, 1.5, 0.0, Graphics::GetCrystalGraph(counter[1]), true);
 		DrawExtendFormatString(480, 260, 2.0, 2.0, 0x000000, "大きい水晶玉だ!\n持ち帰れなさそうだ。このまま置いておこう。");
 	}
-	else if (rand == 1)
+	else if (rand[0] == 1)
 	{
 		DrawRotaGraph(845, 460, 1.5, 0.0, Graphics::GetMainGraph(MG::mBox), true);
 		DrawExtendFormatString(480, 260, 2.0, 2.0, 0x000000, "宝箱があった！\n帰って開けてみよう!");
@@ -118,11 +138,17 @@ void ResultScene::Draw()
 		DrawRotaGraph(920, counter[2] - 16, 1.0, 0.0, Graphics::GetPlayerGraph(CS::mNomal), true);
 	}
 
-	// 獲得スコア
+	// 背景
 	DrawRotaGraph(WIND_WIDTH / 2, 820, 2.0, PI / 2, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawGraph(0, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
 	DrawBox(580, 580, 1200, 900, 0x000000, true);
+
+	// 背景以外のもの（ 獲得スコアなど ）
+	if (checkFlag)
+	{
+		DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256, 5.5, 5.5, 0xFFFFFF, "Item Complate !!!");
+	}
 	DrawExtendFormatString(600, 684, 2.0, 2.0, 0xFFFFFF, "獲　得　ス　コ　ア　＆　タ　イ　ム");
 	if (!DataFile::time.empty())
 	{

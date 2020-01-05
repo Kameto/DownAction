@@ -19,6 +19,7 @@ public:
 
 private:
 	int counter[4];
-	int rand;
+	int rand[2];
 	bool sceneFlag;
+	bool checkFlag;
 };
