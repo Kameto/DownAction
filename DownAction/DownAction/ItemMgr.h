@@ -11,6 +11,7 @@ typedef enum class ItemName
 	IN_mPaper,		// お札
 	IN_mKnife,		// ナイフ
 	IN_mMusicPlayer,// 音楽プレーヤー
+	IN_mPorsion,	// ぽーしぉん
 	mAll
 }IName;
 

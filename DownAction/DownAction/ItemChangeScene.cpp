@@ -117,6 +117,12 @@ void ItemChangeScene::UI_Update()
 
 		}
 	}
+
+	// タイトルに戻る
+	if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1)
+	{
+		BaseScene::nowScene = SceneName::eTitle;
+	}
 }
 
 void ItemChangeScene::UI_Draw()
@@ -182,7 +188,7 @@ void ItemChangeScene::UI_Draw()
 		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFFFF00, false, 10.0f);
 		DrawExtendFormatString(tp[1][0] + 128, tp[1][1], 1.5, 1.5, 0x000000, "DOWN Arrow Key");
 	}
-	DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "C + X　で アイテム図鑑");
+	DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "Spaceキー でタイトルへ  C + X　で アイテム図鑑");
 
 #ifdef _DEBUG
 	DrawExtendFormatString(1920 / 2 - 192, 100, 1.0, 1.0, 0xFFFFFF, "back to title => push tab key");

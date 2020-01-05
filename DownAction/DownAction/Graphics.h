@@ -35,6 +35,7 @@ typedef enum MainGraphs
 	mPaper,		// お札
 	mKnife,		// ナイフ
 	mMusicPlayer,// 音楽プレーヤー
+	mPorsion,	// ぽーしぉん
 	mAll_num	// 総数
 }MG;
 
