@@ -145,7 +145,7 @@ void ResultScene::Draw()
 	DrawBox(580, 580, 1200, 900, 0x000000, true);
 
 	// 背景以外のもの（ 獲得スコアなど ）
-	if (checkFlag)
+	if (checkFlag == true)
 	{
 		DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256, 5.5, 5.5, 0xFFFFFF, "Item Complate !!!");
 	}
