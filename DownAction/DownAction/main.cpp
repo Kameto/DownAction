@@ -5,7 +5,6 @@
 
 #include <DxLib.h>
 #include "SceneMgr.h"
-#include "FPS.hpp"
 #include "MyRand.h"
 
 int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
@@ -35,10 +34,6 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	SceneMgr* smgr	 = new SceneMgr();
 	MyRand* mrnd	 = new MyRand();
 
-#ifdef _DEBUG
-	FPS* fps		 = new FPS();
-#endif // _DEBUG
-
 	// メッセージループ
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_END) == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
@@ -51,17 +46,8 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		{
 			break;
 		}
-#ifdef _DEBUG
-		//fps->Update();
-		//fps->Draw();
-		//fps->Waits();
-#endif // _DEBUG
 		ScreenFlip();
 	}
-
-#ifdef _DEBUG
-	DEL_OBJ(fps);
-#endif // _DEBUG
 
 	DEL_OBJ(mrnd);
 	DEL_OBJ(smgr);
