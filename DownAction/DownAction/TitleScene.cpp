@@ -63,10 +63,6 @@ void TitleScene::Update()
 				const string s = "start firefox.exe \"" + Path.string<char>() + "\"";
 				system(s.c_str());
 			}
-			else
-			{
-
-			}
 		}
 
 		// 図鑑起動
@@ -80,10 +76,6 @@ void TitleScene::Update()
 				// 図鑑の表示
 				const string s = "start " + Path.string<char>();
 				system(s.c_str());
-			}
-			else
-			{
-
 			}
 		}
 
@@ -143,11 +135,11 @@ void TitleScene::Draw()
 	SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, cmtCounter);
 	if (cmtFlag == false)
 	{
-		DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "C + Z　でアイテム選択画面　C + S　でスコア表示　C + X　で音楽プレーヤー起動");
+		DrawExtendFormatString(300, 1020, 2.0, 2.0, 0xFFFFFF, "C + Z　でアイテム選択画面　C + S　でスコア表示　C + X　でステージ作成ツール起動");
 	}
 	else
 	{
-		DrawExtendFormatString(265, 1020, 2.0, 2.0, 0xFFFFFF, "← + START でアイテム選択画面　← + L1 でスコア表示　← + R1 で音楽プレーヤー起動");
+		DrawExtendFormatString(265, 1020, 2.0, 2.0, 0xFFFFFF, "← + START でアイテム選択画面　← + L1 でスコア表示　← + R1 でステージ作成ツール起動");
 	}
 	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 

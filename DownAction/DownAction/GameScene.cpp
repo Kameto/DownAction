@@ -12,7 +12,6 @@ GameScene::GameScene()
 	p1	 = new Player();
 	cmr	 = new Camera();
 	font = new Font("MS ゴシック", DX_FONTTYPE_ANTIALIASING_EDGE);
-	tw	 = new TimeWatch();
 	
 	std::string path[3];
 	if (BaseScene::nowStage > 0)
@@ -33,6 +32,8 @@ GameScene::GameScene()
 	{
 		DataFile::LoadText();
 	}
+
+	TimeWatch::ResetTimeWatch();
 
 	// ローカル変数初期化
 	goalPoint	 = (STAGE_HIEGHT * 32);
@@ -55,19 +56,11 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-#ifdef _DEBUG
-#else
-	// スコア・タイム記憶
-	if (goalFlag == true || overFlag == true)
-	{
-		DataFile::time.push_back(tw->GetTime());
-		DataFile::score.push_back(Score::score);
-	}
-#endif
+	TimeWatch::AddTime();
+	Score::AddScore();
 	Score::ScoreReset();
 	
 	// ポインター初期化
-	DEL_OBJ(tw);
 	DEL_OBJ(p1);
 	DEL_OBJ(cmr);
 	DEL_OBJ(font);
@@ -350,7 +343,7 @@ void GameScene::Update()
 	if (goalFlag == false && overFlag == false && explanFlag == false)
 	{
 		// オブジェクトごとの処理
-		tw->Update();
+		TimeWatch::Update();
 		this->PlayerUpdate();
 		this->EnemyUpdate();
 		this->BlockUpdate();
@@ -367,7 +360,7 @@ void GameScene::Update()
 		if (explanFlag == false)
 		{
 			//	クリア時の処理
-			tw->tFlag = false;
+			TimeWatch::StopTimeWatch();
 
 			// 光量調整
 			if (counter[3] < 256 && brightFlag == true)
@@ -471,13 +464,13 @@ void GameScene::StageDraw()
 	DrawRotaGraph(stickX, stickY, 1.0, 0.0, Graph::GetMainGraph(MG::mStick), true, false);
 
 	// 時間表示
-	if (tw->mSecond >= 10)
+	if (TimeWatch::mSecond >= 10)
 	{
-		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.%.0f", tw->second, tw->mSecond);
+		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.%.0f", TimeWatch::second, TimeWatch::mSecond);
 	}
 	else
 	{
-		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.0%.0f", tw->second, tw->mSecond);
+		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.0%.0f", TimeWatch::second, TimeWatch::mSecond);
 	}
 
 	DrawExtendFormatString(WIND_WIDTH / 2 - 448, 32, 4.0, 2.0, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);

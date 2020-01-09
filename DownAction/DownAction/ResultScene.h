@@ -5,6 +5,8 @@
 
 #pragma once
 #include "BaseScene.h"
+#include "TimeWatch.h"
+#include "Score.h"
 #include "DataFile.h"
 #include "MyRand.h"
 

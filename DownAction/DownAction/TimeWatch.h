@@ -11,10 +11,16 @@ class TimeWatch
 public:
 	TimeWatch();
 	~TimeWatch();
-	void Update();
-	std::string GetTime();
+	static void Update();
+	static void ResetTimeWatch();
+	static void StopTimeWatch();
+	static void AddTime();
+	static std::string GetTime();
+	static int second;
+	static double mSecond;
 
-	int second;
-	double mSecond;
-	bool tFlag;
+private:
+	static int sum_Sec;
+	static double sum_MSec;
+	static bool tFlag;
 };

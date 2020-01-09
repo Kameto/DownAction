@@ -17,10 +17,12 @@ SceneMgr::SceneMgr()
 	sc		 = nullptr;
 	sc		 = new Score();
 	imgr	 = new ItemMgr();
+	tw		 = new TimeWatch();
 }
 
 SceneMgr::~SceneMgr()
 {
+	DEL_OBJ(tw);
 	DEL_OBJ(imgr);
 	DEL_OBJ(sc);
 	DEL_OBJ(df);

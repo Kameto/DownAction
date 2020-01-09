@@ -16,16 +16,13 @@ ItemMgr::ItemMgr()
 #ifdef _DEBUG
 	for (int i = 0; i < (int)ItemName::mAll; i++)
 	{
-		possItemFlag[i] = false;
+		possItemFlag[i] = true;
 	}
 	setItem = new int[possItem];
 	for (int i = 0; i < possItem; i++)
 	{
 		setItem[i] = -1;
 	}
-	//setItem[0] = (int)ItemName::IN_mMask;
-	//setItem[1] = (int)ItemName::IN_mPortal;
-	//setItem[2] = (int)ItemName::IN_mMap;
 #else
 	for (int i = 0; i < (int)ItemName::mAll; i++)
 	{

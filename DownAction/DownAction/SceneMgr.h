@@ -9,6 +9,7 @@
 #include "ResultScene2.h"	// ResulScene2,Graphics,Keyboard,DataFile,Score
 #include "TitleScene.h"		// TitleScene,Graphics,Keyboard
 #include "ItemChangeScene.h"// IC_Scene, Graphics, Keyboard, Mouse, ItemMgr
+#include "TimeWatch.h"
 
 class SceneMgr
 {
@@ -28,4 +29,5 @@ private:
 	DataFile* df;		// ファイル関連クラスポインター
 	Score* sc;			// ゲーム内スコアクラスポインター
 	ItemMgr* imgr;		// プレイヤーアイテム管理クラスポインター
+	TimeWatch* tw;		// ゲーム内タイマー全ステージ記録のためここに配置
 };

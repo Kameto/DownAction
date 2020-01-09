@@ -10,6 +10,8 @@ public:
 	Score();
 	~Score();
 	static void ScoreReset();
+	static void AddScore();
 
 	static int score;
+	static int sum_Score;
 };

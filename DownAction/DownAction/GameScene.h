@@ -42,7 +42,6 @@ private:
 	Player* p1;
 	Camera* cmr;
 	Font* font;
-	TimeWatch* tw;
 	std::vector<Block*>block;
 	std::vector<Item*>item;
 	std::vector<Enemy*>enemy;

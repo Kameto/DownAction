@@ -18,7 +18,6 @@ int _stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 #else
 	ChangeWindowMode(false);					// スクリーン設定
 #endif
-
 	SetGraphMode(1920, 1080, 32);				// 描画範囲
 	SetFontSize(16);							// 文字サイズ設定
 	if (DxLib_Init() == -1)						// Dxライブラリの初期化

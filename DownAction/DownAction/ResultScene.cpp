@@ -51,6 +51,9 @@ ResultScene::ResultScene()
 	}
 	sceneFlag = false;
 	BaseScene::nowStage = 0;
+
+	DataFile::time.push_back(TimeWatch::GetTime());
+	DataFile::score.push_back(Score::sum_Score);
 }
 
 ResultScene::~ResultScene()
