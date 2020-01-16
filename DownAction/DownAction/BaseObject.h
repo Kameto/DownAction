@@ -42,12 +42,12 @@ namespace ObjState
 			speed	 = 0.0;
 			gravty	 = 0.0;
 		};
-		double cx;
-		double cy;
-		double ccx;
-		double ccy;
-		double speed;
-		double gravty;
+		double cx;		// 画像座標
+		double cy;		// 画像座標
+		double ccx;		// 内部処理用座標
+		double ccy;		// 内部処理用座標
+		double speed;	// 移動速度
+		double gravty;	// 重力
 	};
 
 	class ObjInfo
@@ -73,13 +73,13 @@ namespace ObjState
 			dirFlag		 = false;
 			hitObjFlag	 = false;
 		};
-		int sizeX;
-		int sizeY;
-		int state;
-		bool activFlag;
-		bool downFlag;
-		bool dirFlag;
-		bool hitObjFlag;
+		int sizeX;			// 画像サイズ
+		int sizeY;			// 画像サイズ
+		int state;			// キャラ状態
+		bool activFlag;		// 行動フラグ
+		bool downFlag;		// 落下フラグ
+		bool dirFlag;		// 向きフラグ
+		bool hitObjFlag;	// 判定フラグ
 		
 	};
 }
@@ -99,7 +99,7 @@ public:
 	};
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	bool HitObject(BaseObject* bo1);
-	ObjState::ObjPoint* mpPoint;
-	ObjState::ObjInfo* mpInfo;
+	bool HitObject(BaseObject* bo1);// あたり判定
+	ObjState::ObjPoint* mpPoint;	// 座標関連
+	ObjState::ObjInfo* mpInfo;		// 座標以外のその他情報
 };

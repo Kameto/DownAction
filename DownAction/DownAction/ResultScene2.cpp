@@ -16,6 +16,7 @@ ResultScene2::ResultScene2()
 	checkFlag = ItemMgr::CheckItem();
 	if (checkFlag == false)
 	{
+		// アイテム解放処理
 		while (true)
 		{
 			if (ItemMgr::possItemFlag[rand] == false)
@@ -36,6 +37,7 @@ ResultScene2::ResultScene2()
 			}
 		}
 
+		// アイテムセット処理
 		for (int i = 0, n = ItemMgr::possItem; i < n; i++)
 		{
 			if (ItemMgr::setItem[i] == -1)
@@ -85,7 +87,7 @@ void ResultScene2::Update()
 		}
 		else
 		{
-			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
 				moveFlag = true;
 			}
@@ -112,6 +114,7 @@ void ResultScene2::Draw()
 	// プレイヤー
 	DrawRotaGraph(WIND_WIDTH / 2, counter[2] - 16, 1.0, 0.0, Graphics::GetPlayerGraph(CS::mDown), true);
 
+	// 画面暗転処理
 	if (sceneFlag == true)
 	{
 		SetDrawBright(255 - BaseScene::counter, 255 - BaseScene::counter, 255 - BaseScene::counter);
@@ -130,7 +133,7 @@ void ResultScene2::Draw()
 		{
 			if (checkFlag)
 			{
-				DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256,5.5, 5.5, 0xFFFFFF, "Item Complate !!!");
+				DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256,5.5, 5.5, 0xFFFFFF, "Item Complated !!!");
 			}
 			else
 			{

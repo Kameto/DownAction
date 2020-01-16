@@ -10,15 +10,12 @@
 #include "Block.h"
 #include "Camera.h"
 #include "DataFile.h"
+#include "DefaultFunc.h"
 #include "Enemy.h"
 #include "Font.h"
 #include "Item.h"
 #include "Player.h"
 #include "TimeWatch.h"
-
-#define PI 3.14159265359
-#define TRANS_SX 1800
-#define TRANS_SY 960
 
 class GameScene
 	: public BaseScene

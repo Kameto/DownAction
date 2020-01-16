@@ -68,29 +68,9 @@ ResultScene::~ResultScene()
 
 void ResultScene::Update() 
 {
-	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 	{
 		sceneFlag = true;
-	}
-
-	if (rand == 0)
-	{
-		if (counter[0] < 150)
-		{
-			counter[0]++;
-		}
-		else
-		{
-			if (counter[1] < 5)
-			{
-				counter[1]++;
-			}
-			else
-			{
-				counter[1] = 0;
-				counter[0] = 0;
-			}
-		}
 	}
 
 	if (counter[2] < 490)
@@ -118,7 +98,7 @@ void ResultScene::Draw()
 	}
 	if (rand[0] == 0)
 	{
-		DrawRotaGraph(845, 460, 1.5, 0.0, Graphics::GetCrystalGraph(counter[1]), true);
+		DrawRotaGraph(845, 460, 1.5, 0.0, Graphics::GetCrystalGraph(0), true);
 		DrawExtendFormatString(480, 260, 2.0, 2.0, 0x000000, "大きい水晶玉だ!\n持ち帰れなさそうだ。このまま置いておこう。");
 	}
 	else if (rand[0] == 1)
@@ -150,7 +130,7 @@ void ResultScene::Draw()
 	// 背景以外のもの（ 獲得スコアなど ）
 	if (checkFlag == true)
 	{
-		DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 256, 5.5, 5.5, 0xFFFFFF, "Item Complate !!!");
+		DrawExtendFormatString(WIND_WIDTH / 2 - 448, WIND_HEIGHT / 2 - 448, 5.5, 5.5, 0xFFFFFF, "Item Complated !!!");
 	}
 	DrawExtendFormatString(600, 684, 2.0, 2.0, 0xFFFFFF, "獲　得　ス　コ　ア　＆　タ　イ　ム");
 	if (!DataFile::time.empty())

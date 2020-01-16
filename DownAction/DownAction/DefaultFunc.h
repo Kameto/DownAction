@@ -21,3 +21,5 @@
 #define ENEGY_UP		 32
 #define TRANS_TIME		 640
 #define PI				 3.1415926535897932384626433832795f
+#define TRANS_SX		 1800
+#define TRANS_SY		 960

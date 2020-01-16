@@ -29,7 +29,7 @@ void TitleScene::Update()
 	if (sceneFlag == false && endFlag == false && startFlag == false)
 	{
 		// 遷移先決定
-		if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+		if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 		{
 			if (sele == MG::mStart)
 			{
@@ -42,24 +42,24 @@ void TitleScene::Update()
 		}
 
 		// 遷移先切替
-		if (Keyboard::GetKey(KEY_INPUT_UP) == 1)
+		if (Keyboard::GetKey(KEY_INPUT_UP) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_UP) == 1)
 		{
 			sele = MG::mStart;
 		}
-		else if (Keyboard::GetKey(KEY_INPUT_DOWN) == 1)
+		else if (Keyboard::GetKey(KEY_INPUT_DOWN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_DOWN) == 1)
 		{
 			sele = MG::mEnd;
 		}
 		
 		// スコア参照
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_S) > 0) || 
-			(JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) > 20))
+			(JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_Y) > 20))
 		{
 			string fileName = "datafile/scorefile/scoreData.html";
 			fs::path Path = fs::absolute(fileName);
 			if (fs::exists(Path))
 			{
-				// スコアhtmlの表示
+				// スコアhtmlの表示(MS-EDGE用"start microsoft-edge:file://" + Path.string<char>();)
 				const string s = "start firefox.exe \"" + Path.string<char>() + "\"";
 				system(s.c_str());
 			}
@@ -67,7 +67,7 @@ void TitleScene::Update()
 
 		// 図鑑起動
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0) ||
-			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_LEFT_SHOULDER) > 20))
+			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_X) > 20))
 		{
 			string fileName =  "ステージ作成ツール.exe";
 			fs::path Path = fs::absolute(fileName);
@@ -79,6 +79,7 @@ void TitleScene::Update()
 			}
 		}
 
+		// アイテム編集画面
 		if ((Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_Z) > 0) ||
 			(JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 20 && JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) > 20))
 		{
@@ -139,7 +140,7 @@ void TitleScene::Draw()
 	}
 	else
 	{
-		DrawExtendFormatString(265, 1020, 2.0, 2.0, 0xFFFFFF, "← + START でアイテム選択画面　← + L1 でスコア表示　← + R1 でステージ作成ツール起動");
+		DrawExtendFormatString(265, 1020, 2.0, 2.0, 0xFFFFFF, "← + START でアイテム選択画面　← + Y でスコア表示　← + X でステージ作成ツール起動");
 	}
 	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 

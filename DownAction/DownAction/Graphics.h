@@ -55,6 +55,7 @@ typedef enum Chara_State
 	mCnum		// 総数
 }CS;
 
+// 表示エフェクト文字
 enum Moji
 {
 	mDoxuru,	// ドゥルルル
@@ -86,11 +87,11 @@ public:
 
 private:
 	/*** static ***/
-	static int m_gr[MG::mAll_num];
-	static int p_gr[CS::mCnum];
-	static int e_gr[CS::mCnum];
-	static int b_gr[6];
-	static int mo_gr[Moji::mMoji_All];
+	static int m_gr[MG::mAll_num];		// mainフォルダ内画像格納変数
+	static int p_gr[CS::mCnum];			// playerフォルダ内画像格納変数
+	static int e_gr[CS::mCnum];			// enemyフォルダ内画像格納変数
+	static int b_gr[6];					// etc/cystalフォルダ内画像格納変数
+	static int mo_gr[Moji::mMoji_All];	// mojiフォルダ内画像格納変数
 	/**************/
 };
 typedef Graphics Graph;

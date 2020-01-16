@@ -28,7 +28,7 @@ public:
 	};
 	~Font() 
 	{
-		if (fHandle != (NULL || -1))
+		if (fHandle != -1)
 		{
 			DeleteFontToHandle(fHandle);
 			fHandle = 0;
@@ -43,7 +43,7 @@ public:
 	}
 	int SetFont(const char *fontName = NULL, int size = DEF_FSIZE, int thinck = DEF_FTHINCK,int type = DX_FONTTYPE_NORMAL)
 	{
-		if (fHandle != (NULL || -1))
+		if (fHandle != -1)
 		{
 			DeleteFontToHandle(fHandle);
 			fHandle = 0;

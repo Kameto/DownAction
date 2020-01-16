@@ -58,25 +58,29 @@ void ItemChangeScene::UI_Update()
 #endif
 
 	// 移動
-	if (Keyboard::GetKey(KEY_INPUT_RIGHT) == 1 && this->widR.max > nWid)
+	if ((Keyboard::GetKey(KEY_INPUT_RIGHT) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_RIGHT) == 1)
+		&& this->widR.max > nWid)
 	{
 		nWid++;
 	}
-	else if (Keyboard::GetKey(KEY_INPUT_LEFT) == 1 && this->widR.min < nWid)
+	else if ((Keyboard::GetKey(KEY_INPUT_LEFT) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) == 1)
+		&& this->widR.min < nWid)
 	{
 		nWid--;
 	}
-	else if (Keyboard::GetKey(KEY_INPUT_UP) == 1 && this->heiR.max > nHei)
+	else if ((Keyboard::GetKey(KEY_INPUT_UP) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_UP) == 1)
+		&& this->heiR.max > nHei)
 	{
 		nHei++;
 	}
-	else if (Keyboard::GetKey(KEY_INPUT_DOWN) == 1 && this->heiR.min < nHei)
+	else if ((Keyboard::GetKey(KEY_INPUT_DOWN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_DOWN) == 1)
+		&& this->heiR.min < nHei)
 	{
 		nHei--;
 	}
 
 	// 決定・解除
-	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 	{
 		if (changeItem < ItemMgr::possItem)
 		{
@@ -92,7 +96,8 @@ void ItemChangeScene::UI_Update()
 			BaseScene::nowScene = SceneName::eTitle;
 		}
 	}
-	else if (Keyboard::GetKey(KEY_INPUT_BACK) == 1 && changeItem > 0)
+	else if ((Keyboard::GetKey(KEY_INPUT_BACK) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) == 1) 
+		&& changeItem > 0)
 	{
 		nowItem[changeItem - 1] = -1;
 		changeItem--;
@@ -107,6 +112,7 @@ void ItemChangeScene::UI_Update()
 		cFlag = false;
 	}
 
+	// 図鑑の起動(キーボード専用)
 	if (Keyboard::GetKey(KEY_INPUT_C) > 0 && Keyboard::GetKey(KEY_INPUT_X) > 0)
 	{
 		string fileName = "アイテム図鑑.exe";
@@ -124,7 +130,7 @@ void ItemChangeScene::UI_Update()
 	}
 
 	// タイトルに戻る
-	if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1)
+	if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) == 1)
 	{
 		BaseScene::nowScene = SceneName::eTitle;
 	}
@@ -172,27 +178,30 @@ void ItemChangeScene::UI_Draw()
 	// アイテム枠
 	if (changeItem < ItemMgr::possItem)
 	{
-		DrawBoxAA(256 - 112, 256 + (changeItem * 288) - 112, 256 + 112, 256 + (changeItem * 288) + 112, 0x00A0FF, false, 10.0f);
+		DrawBoxAA((float)(256 - 112), (float)(256 + (changeItem * 288) - 112),
+					(float)(256 + 112),(float)( 256 + (changeItem * 288) + 112), 0x00A0FF, false, 10.0f);
 	}
 	else
 	{
-		DrawBoxAA(256 - 112, 256 + ((changeItem - 1) * 288) - 112, 256 + 112, 256 + ((changeItem - 1) * 288) + 112, 0x00A0FF, false, 10.0f);
+		DrawBoxAA((float)(256 - 112),(float)( 256 + ((changeItem - 1) * 288) - 112),
+					(float)(256 + 112),(float)( 256 + ((changeItem - 1) * 288) + 112), 0x00A0FF, false, 10.0f);
 	}
-	DrawBoxAA(600 + (nWid * 192) - 96, 540 - 96, 600 + (nWid * 192) + 96, 540 + 96, 0xFF00FF, false, 10.0f);
+	DrawBoxAA((float)(600 + (nWid * 192) - 96),(float)( 540 - 96),
+				(float)(600 + (nWid * 192) + 96),(float)( 540 + 96), 0xFF00FF, false, 10.0f);
 
 	// ▲
 	if (this->heiR.max > nHei)
 	{
-		DrawTriangleAA(tp[0][0] - 96, tp[0][1], tp[0][0] + 96, tp[0][1], tp[0][0], tp[0][1] - 96, 0xFF00FF, true, 10.0f);
-		DrawTriangleAA(tp[0][0] - 96, tp[0][1], tp[0][0] + 96, tp[0][1], tp[0][0], tp[0][1] - 96, 0xFFFF00, false, 10.0f);
-		DrawExtendFormatString(tp[0][0] + 128, tp[0][1], 1.5, 1.5, 0xFFFFFF, "UP Arrow Key");
+		DrawTriangleAA(tp[0][0] - 96.0f, tp[0][1], tp[0][0] + 96.0f, tp[0][1], tp[0][0], tp[0][1] - 96.0f, 0xFF00FF, true, 10.0f);
+		DrawTriangleAA(tp[0][0] - 96.0f, tp[0][1], tp[0][0] + 96.0f, tp[0][1], tp[0][0], tp[0][1] - 96.0f, 0xFFFF00, false, 10.0f);
+		DrawExtendFormatString((int)tp[0][0] + 128, (int)tp[0][1], 1.5, 1.5, 0xFFFFFF, "UP Arrow Key");
 	}
 
 	if (this->heiR.min < nHei)
 	{
-		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFF00FF, true, 10.0f);
-		DrawTriangleAA(tp[1][0] - 96, tp[1][1], tp[1][0] + 96, tp[1][1], tp[1][0], tp[1][1] + 96, 0xFFFF00, false, 10.0f);
-		DrawExtendFormatString(tp[1][0] + 128, tp[1][1], 1.5, 1.5, 0x000000, "DOWN Arrow Key");
+		DrawTriangleAA(tp[1][0] - 96.0f, tp[1][1], tp[1][0] + 96.0f, tp[1][1], tp[1][0], tp[1][1] + 96.0f, 0xFF00FF, true, 10.0f);
+		DrawTriangleAA(tp[1][0] - 96.0f, tp[1][1], tp[1][0] + 96.0f, tp[1][1], tp[1][0], tp[1][1] + 96.0f, 0xFFFF00, false, 10.0f);
+		DrawExtendFormatString((int)tp[1][0] + 128, (int)tp[1][1], 1.5, 1.5, 0x000000, "DOWN Arrow Key");
 	}
 
 	// comment

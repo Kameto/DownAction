@@ -163,7 +163,7 @@ void GameScene::GimmickUpdate()
 	}
 
 	// 中心からの距離量の増減
-	if (Keyboard::GetKey(KEY_INPUT_UP) > 0)
+	if (Keyboard::GetKey(KEY_INPUT_UP) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) > 0)
 	{
 		if (range < 20)
 		{
@@ -174,7 +174,20 @@ void GameScene::GimmickUpdate()
 	{
 		if (range > 0)
 		{
-			range -= 4;
+			range -= 2;
+		}
+	}
+
+	// Xboxコントローラー専用機能
+	if (JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) == 1)
+	{
+		if (radian == (0.0 * PI) / 360)
+		{
+			radian = (360.0 * PI) / 360;
+		}
+		else
+		{
+			radian = (00.0 * PI) / 360;
 		}
 	}
 	
@@ -189,7 +202,7 @@ void GameScene::GimmickUpdate()
 	// 変身前キー入力処理
 	if (p1->fuwaFlag == false && p1->kataFlag == false)
 	{
-		if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1)
+		if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
 		{
 			if (range > 12 && p1->enegy * ENEGY_UP == ENEGY_MAX)
 			{
@@ -371,7 +384,6 @@ void GameScene::Update()
 			{
 				brightFlag = false;
 			}
-			
 			if (counter[3] > 30 && brightFlag == false)
 			{
 				counter[3]--;
@@ -381,8 +393,8 @@ void GameScene::Update()
 				brightFlag = true;
 			}
 
-
-			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+			// シーン切替
+			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
 				if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
 				{
@@ -397,7 +409,7 @@ void GameScene::Update()
 		else
 		{
 			//	操作説明を読み進める
-			if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1)
+			if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
 				if (tEndFlag == true)
 				{
@@ -430,13 +442,6 @@ void GameScene::Update()
 			BaseScene::nowScene = SceneName::eResult;
 		}
 	}
-
-	//座標初期化
-	if (Keyboard::GetKey(KEY_INPUT_R) == 1)
-	{
-		p1->mpPoint->cx = 600;
-		p1->mpPoint->cy = 0;
-	}
 #endif
 }
 
@@ -447,11 +452,9 @@ void GameScene::StageDraw()
 	DrawBox(0, 9460, 1080, 9460 + 16, 0xFF0000, true);
 
 	// 画面枠
-	//DrawBox(0, 0, WALL_WIDTH, 1080, 0xFF0077, true);
 	DrawGraph(0, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
-	//DrawBox(1920 - WALL_WIDTH, 0, 1920, 1080, 0xFF0077, true);
 	DrawGraph(1920 - WALL_WIDTH, 0, Graphics::GetMainGraph(MG::mStoneWall), false);
-	DrawBox(0, goalPoint - Camera::my, 1920, goalPoint + 16 - Camera::my, 0xFFFFFF, true);
+	DrawBox(0, goalPoint - (int)Camera::my, 1920, goalPoint + 16 - (int)Camera::my, 0xFFFFFF, true);
 
 	// ライフ&エネルギーゲージ
 	DrawBox(1800 - 64, 460 - 256, 1800 + 64, 460 + 256, 0x105050, true);
@@ -461,7 +464,7 @@ void GameScene::StageDraw()
 
 	// 変身枠
 	DrawRotaGraph(TRANS_SX, TRANS_SY, 1.0, 0.0, Graph::GetMainGraph(MG::mChange), true, false);
-	DrawRotaGraph(stickX, stickY, 1.0, 0.0, Graph::GetMainGraph(MG::mStick), true, false);
+	DrawRotaGraph((int)stickX, (int)stickY, 1.0, 0.0, Graph::GetMainGraph(MG::mStick), true, false);
 
 	// 時間表示
 	if (TimeWatch::mSecond >= 10)
@@ -480,6 +483,21 @@ void GameScene::StageDraw()
 	{
 		DrawRotaGraph(WIND_WIDTH / 2, (WIND_HEIGHT / 6) * 5, 0.75, 0.0, Graphics::GetMainGraph(MG::mComent), true);
 		DrawExtendFormatStringToHandle(304, 848, 1.0, 1.0, 0xFFFFFF, font->GetHandle(), DataFile::text.at(counter[1]).c_str());
+		// 体力・変身ゲージ
+		DrawExtendFormatString(1701, 160, 1.5, 1.5, 0x000000, "変身バー : HPバー\n　　↓　　↓");
+		DrawExtendFormatString(1700, 160, 1.5, 1.5, 0xFF0000, "変身バー : HPバー\n　　↓　　↓");
+
+		// タイマー
+		DrawExtendFormatString(841, 80, 1.5, 1.5, 0x000000, "  ↑\nタイマー");
+		DrawExtendFormatString(840, 80, 1.5, 1.5, 0xFF0000, "  ↑\nタイマー");
+
+		// ステージ
+		DrawExtendFormatString(541, 80, 1.5, 1.5, 0x000000, "  ↑\nステージ");
+		DrawExtendFormatString(540, 80, 1.5, 1.5, 0xFF0000, "  ↑\nステージ");
+
+		// アイテム
+		DrawExtendFormatString(46, 160, 1.5, 1.5, 0x000000, "アイテム\n　　↓");
+		DrawExtendFormatString(45, 160, 1.5, 1.5, 0xFF0000, "アイテム\n　　↓");
 		tEndFlag = true;
 	}
 
@@ -577,17 +595,5 @@ void GameScene::Draw()
 	// アイテムフラグ
 	DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
 	DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
-
-	// ブロックの状態
-	/*for (int i = 0, n = (unsigned)block.size(); i < n; i++)
-	{
-		DrawFormatString(300 , i * 32, 0xFFFFFF, "block[ %d ]->HitFlag", i);
-		DrawFormatString(480 , i * 32, 0xFFFFFF, block[i]->mpInfo->hitObjFlag ? "true" : "false");
-		if (block[i]->mpInfo->hitObjFlag == true)
-		{
-			DrawFormatString(200, 0, 0xFFFFFF, "Hit Now!!");
-		}
-	}*/
-	
 #endif
 }
