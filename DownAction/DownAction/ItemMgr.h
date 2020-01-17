@@ -26,8 +26,9 @@ public:
 	ItemMgr();
 	~ItemMgr();
 	static bool CheckItem();
+	static void DebugMode();		// debugモード処理
 	static bool* possItemFlag;		// アイテムフラグ
-	static const int possItem = 3;	// アイテム所持数
 	static bool possMaxFlag;		// 上限までアイテムを持っているか確認フラグ
+	static const int possItem = 3;	// アイテム所持数
 	static int* setItem;			// 所持アイテム参照変数
 };

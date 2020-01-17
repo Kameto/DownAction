@@ -60,3 +60,11 @@ bool ItemMgr::CheckItem()
 	}
 	return false;
 }
+
+void ItemMgr::DebugMode()
+{
+	for (int i = 0; i < (int)ItemName::mAll; i++)
+	{
+		possItemFlag[i] = true;
+	}
+}

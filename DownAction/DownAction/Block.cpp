@@ -47,12 +47,12 @@ void Block::Draw()
 
 	if (transFlag == true)
 	{
-		DrawBox(mpPoint->cx - (mpInfo->sizeX / 2), mpPoint->cy - (mpInfo->sizeY / 2) - Camera::my,
-			mpPoint->cx + (mpInfo->sizeX / 2), mpPoint->cy + (mpInfo->sizeY / 2) - Camera::my,
+		DrawBox((int)(mpPoint->cx - (mpInfo->sizeX / 2)), (int)(mpPoint->cy - (mpInfo->sizeY / 2) - Camera::my),
+			(int)(mpPoint->cx + (mpInfo->sizeX / 2)), (int)(mpPoint->cy + (mpInfo->sizeY / 2) - Camera::my),
 			0xFF0000, false);
 	}
 	else
 	{
-		DrawRotaGraph(mpPoint->cx, mpPoint->cy - Camera::my, 1.0, 0.0, Graphics::GetMainGraph(MG::mBlock), false, false);
+		DrawRotaGraph((int)mpPoint->cx, (int)(mpPoint->cy - Camera::my), 1.0, 0.0, Graphics::GetMainGraph(MG::mBlock), false, false);
 	}
 }

@@ -16,9 +16,10 @@ public:
 	void Update();
 	void Draw();
 
-	int cmtCounter;
-	int sele;
-	bool sceneFlag;
-	bool startFlag;
-	bool cmtFlag;
+	int cmtCounter;	// コメント表示用カウンター
+	int sele;		// 選択している項目変数
+	int modeCount;	// debugモード管理カウント
+	bool sceneFlag;	// フェード処理用フラグ
+	bool startFlag;	// 
+	bool cmtFlag;	// コメント表示用フラグ
 };

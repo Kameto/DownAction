@@ -148,47 +148,30 @@ void GameScene::GimmickUpdate()
 	if (Keyboard::GetKey(KEY_INPUT_RIGHT) > 0)
 	{
 		radian += (6.0 * PI) / 360.0;
-		if (radian >= (6.0 * PI))
-		{
-			radian -= 6.0 * PI;
-		}
+		if (radian >= (6.0 * PI)) { radian -= 6.0 * PI; }
 	}
 	else if (Keyboard::GetKey(KEY_INPUT_LEFT) > 0)
 	{
 		radian -= (6.0 * PI) / 360.0;
-		if (radian >= (6.0 * PI))
-		{
-			radian += 6.0 * PI;
-		}
+		if (radian >= (6.0 * PI)) { radian += 6.0 * PI; }
 	}
 
 	// 中心からの距離量の増減
-	if (Keyboard::GetKey(KEY_INPUT_UP) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) > 0)
+	if (Keyboard::GetKey(KEY_INPUT_UP) > 0
+		|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) > 0)
 	{
-		if (range < 20)
-		{
-			range += 4;
-		}
+		if (range < 20) { range += 4; }
 	}
 	else
 	{
-		if (range > 0)
-		{
-			range -= 2;
-		}
+		if (range > 0) { range -= 2; }
 	}
 
-	// Xboxコントローラー専用機能
+	// Xboxコントローラー専用機能(左右どちらかに移動する)
 	if (JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_A) == 1)
 	{
-		if (radian == (0.0 * PI) / 360)
-		{
-			radian = (360.0 * PI) / 360;
-		}
-		else
-		{
-			radian = (00.0 * PI) / 360;
-		}
+		if (radian == (0.0 * PI) / 360) { radian = (360.0 * PI) / 360; }
+		else { radian = (00.0 * PI) / 360; }
 	}
 	
 	stickX = TRANS_SX + (cos(radian) * range);
@@ -238,10 +221,7 @@ void GameScene::PlayerUpdate()
 	this->GimmickUpdate();
 
 	// 体力がなくなったら
-	if (p1->life == 0)
-	{
-		overFlag = true;
-	}
+	if (p1->life == 0){ overFlag = true; }
 
 	// ゴールラインについたら
 	if (p1->mpPoint->cy + Camera::my >= goalPoint)
@@ -300,14 +280,8 @@ void GameScene::BlockUpdate()
 			block[i]->mpInfo->hitObjFlag = true;
 			if (p1->kataFlag == true && p1->actionFlag == false)
 			{
-				if (p1->enegy > 0)
-				{
-					p1->enegy -= 4;
-				}
-				else
-				{
-					p1->enegy = 0;
-				}
+				if (p1->enegy > 0){ p1->enegy -= 4;	}
+				else{ p1->enegy = 0; }
 				block.erase(block.begin() + i);
 			}
 			break;
@@ -332,15 +306,10 @@ void GameScene::ItemUpdate()
 			item[i]->mpInfo->activFlag = false;
 			item.erase(item.begin() + i);
 			Score::score += 100;
-			if (getFlag == false)
-			{
-				getFlag = true;
-			}
-			else
-			{
-				counter[0] = 0;
-			}
-			if (p1->enegy < (ENEGY_MAX / ENEGY_UP) && (p1->kataFlag == false && p1->fuwaFlag == false))
+			if (getFlag == false){ getFlag = true; }
+			else{ counter[0] = 0; }
+			if (p1->enegy < (ENEGY_MAX / ENEGY_UP)
+				&& (p1->kataFlag == false && p1->fuwaFlag == false))
 			{
 				p1->enegy++;
 			}
@@ -362,10 +331,7 @@ void GameScene::Update()
 		this->BlockUpdate();
 		this->ItemUpdate();
 
-		if (BaseScene::firstFlag == true)
-		{
-			explanFlag = true;
-		}
+		if (BaseScene::firstFlag == true) { explanFlag = true; }
 	}
 	else
 	{
@@ -375,27 +341,22 @@ void GameScene::Update()
 			//	クリア時の処理
 			TimeWatch::StopTimeWatch();
 
-			// 光量調整
-			if (counter[3] < 256 && brightFlag == true)
-			{
-				counter[3]++;
-			}
-			else
-			{
-				brightFlag = false;
-			}
-			if (counter[3] > 30 && brightFlag == false)
-			{
-				counter[3]--;
-			}
-			else
-			{
-				brightFlag = true;
-			}
+			// 文字光量調整
+			if (counter[3] < 256 && brightFlag == true){ counter[3]++; }
+			else{ brightFlag = false; }
+			if (counter[3] > 30 && brightFlag == false){counter[3]--;}
+			else{ brightFlag = true; }
 
 			// シーン切替
 			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
+				// ゲームオーバーの場合
+				if (overFlag)
+				{
+					BaseScene::nowScene = SceneName::eResult;
+				}
+
+				// ゲームクリアの場合
 				if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
 				{
 					BaseScene::nowScene = SceneName::eResult2;
@@ -409,7 +370,8 @@ void GameScene::Update()
 		else
 		{
 			//	操作説明を読み進める
-			if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
+			if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1
+				|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
 				if (tEndFlag == true)
 				{
@@ -440,6 +402,22 @@ void GameScene::Update()
 		else
 		{
 			BaseScene::nowScene = SceneName::eResult;
+		}
+	}
+#else
+	// Release時のdebugコード
+	if (BaseScene::modeFlag)
+	{
+		if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+		{
+			if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
+			{
+				BaseScene::nowScene = SceneName::eResult2;
+			}
+			else
+			{
+				BaseScene::nowScene = SceneName::eResult;
+			}
 		}
 	}
 #endif
@@ -504,7 +482,8 @@ void GameScene::StageDraw()
 	// 変身指示
 	if (p1->enegy == (ENEGY_MAX / 32))
 	{
-		DrawExtendStringToHandle(WIND_WIDTH / 2 - 384, 384, 1.0,1.0,"スティックを回して\nSPACE or L2で変身しよう！", 0xFFFFFF, font->GetHandle());
+		DrawExtendStringToHandle(WIND_WIDTH / 2 - 384, 384, 1.0,1.0,
+			"スティックを回して\nSPACE or L2で変身しよう！", 0xFFFFFF, font->GetHandle());
 	}
 }
 
@@ -557,6 +536,7 @@ void GameScene::Draw()
 		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, Graphics::GetMainGraph(MG::mGameClear), true, false);
 	}
 
+	// ゲームオーバーになったら画面を薄緑にする
 	if (overFlag == true)
 	{
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 100);
@@ -565,6 +545,7 @@ void GameScene::Draw()
 		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, Graphics::GetMainGraph(MG::mGameOver), true, false);
 	}
 
+	// 指示表記
 	if (overFlag == true || goalFlag == true)
 	{
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, counter[3]);
@@ -573,6 +554,7 @@ void GameScene::Draw()
 	}
 
 #ifdef _DEBUG
+	// 現在シーン
 	DrawFormatString(0, 0, 0xFFFFFF, "NowScene is Game\npless Enter to next");
 
 	// カメラの状態(移動量)
@@ -595,5 +577,20 @@ void GameScene::Draw()
 	// アイテムフラグ
 	DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
 	DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
+#else
+	// Release時のdebugコード(内容は上記と同じもの)
+	if (BaseScene::modeFlag)
+	{
+		DrawFormatString(0, 0, 0xFFFFFF, "NowScene is Game\npless Enter to next");
+		DrawFormatString(0, 32, 0xFFFFFF, "カメラMX : %.1f\nカメラMY : %.1f", cmr->mx, cmr->my);
+		DrawFormatString(0, 64, 0xFFFFFF, "スコア : %d", Score::score);
+		DrawFormatString(0, 96, 0xFFFFFF, "PX : %.1f\nPY : %.1f\nPスピード : %.1f\nP重力 : %.1f", p1->mpPoint->cx, p1->mpPoint->cy, p1->mpPoint->speed, p1->mpPoint->gravty);
+		DrawString(0, 192, p1->fuwaFlag ? "fuwaFlag : true" : "fuwaFlag : false", 0xFFFFFF);
+		DrawString(0, 224, p1->kataFlag ? "kataFlag : true" : "kataFlag : false", 0xFFFFFF);
+		DrawFormatString(0, 256, 0xFFFFFFF, "bCount : %d___wCount : %d", p1->bCount, p1->wCount);
+		DrawFormatString(0, 288, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
+		DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
+		DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
+	}
 #endif
 }

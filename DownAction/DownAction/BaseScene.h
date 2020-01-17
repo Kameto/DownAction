@@ -7,10 +7,10 @@
 #include <filesystem>
 #include <tchar.h>
 #include <process.h>
-#include "Keyboard.h"
 #include "Graphics.h"
 #include "ItemMgr.h"
 #include "JoyPad.h"
+#include "Keyboard.h"
 
 using namespace std;
 namespace fs = filesystem;
@@ -31,16 +31,17 @@ public:
 	virtual ~BaseScene() {};
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	SceneName GetNowScene();
-	void EndInput();
-	static bool endFlag;
+	SceneName GetNowScene();	// 現在シーンの取得
+	void EndInput();			// 終了コマンド関数
+	static bool endFlag;		// 終了フラグ
 
 protected:
-	void FadeOut(SceneName);
-	void FadeIn();
-	static SceneName nowScene;
-	static bool firstFlag;
-	static int counter;
-	static int nowStage;
-	static int stageNum;
+	void FadeOut(SceneName);	// フェードイン関数
+	void FadeIn();				// フェードアウト関数
+	static SceneName nowScene;	// 現在シーン
+	static bool firstFlag;		// 初回起動フラグ
+	static bool modeFlag;		// debugモードフラグ
+	static int counter;			// 画面遷移時に使用するカウンター
+	static int nowStage;		// ゲーム時のステージカウント
+	static int stageNum;		// ゲーム時の最大ステージ数
 };
