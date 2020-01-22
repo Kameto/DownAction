@@ -27,8 +27,8 @@ GameScene::GameScene()
 		path[2] = "datafile/enemy/enemy.csv";
 	}
 	StageCreate(path);
-
-	if (BaseScene::firstFlag == true)
+	
+	if (BaseScene::firstFlag)
 	{
 		DataFile::LoadText();
 	}
@@ -185,18 +185,13 @@ void GameScene::GimmickUpdate()
 	// 変身前キー入力処理
 	if (p1->fuwaFlag == false && p1->kataFlag == false)
 	{
-		if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
+		if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 
+			|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_RIGHT_SHOULDER) == 1)
 		{
 			if (range > 12 && p1->enegy * ENEGY_UP == ENEGY_MAX)
 			{
-				if (stickX > TRANS_SX)
-				{
-					p1->fuwaFlag = true;
-				}
-				else
-				{
-					p1->kataFlag = true;
-				}
+				if (stickX > TRANS_SX) { p1->fuwaFlag = true; }
+				else { p1->kataFlag = true; }
 			}
 		}
 	}
@@ -220,10 +215,10 @@ void GameScene::PlayerUpdate()
 	cmr->Update(p1->mpPoint->ccx, p1->mpPoint->ccy);
 	this->GimmickUpdate();
 
-	// 体力がなくなったら
+	// 体力がなくなったらゲームオーバー
 	if (p1->life == 0){ overFlag = true; }
 
-	// ゴールラインについたら
+	// ゴールラインについたらゲームクリア
 	if (p1->mpPoint->cy + Camera::my >= goalPoint)
 	{
 		goalFlag = true;
@@ -236,9 +231,12 @@ void GameScene::EnemyUpdate()
 	{
 		enemy[i]->Update();
 
+		// プレイヤーが索敵範囲内に入ったら移動する
 		if (abs(enemy[i]->mpPoint->cy - p1->mpPoint->ccy) <= 250)
 		{
 			enemy[i]->mpInfo->activFlag = true;
+
+			// 移動方向をプレイヤーがいる方向に設定する
 			if (enemy[i]->mpPoint->cx < p1->mpPoint->ccx)
 			{
 				enemy[i]->mpInfo->dirFlag = true;
@@ -251,17 +249,20 @@ void GameScene::EnemyUpdate()
 		else
 		{
 			enemy[i]->mpInfo->activFlag = false;
-			if ((p1->mpPoint->ccy - enemy[i]->mpPoint->cy) >= 600)
-			{
-				enemy.erase(enemy.begin() + i);
-				break;
-			}
 		}
 
+		// プレイヤーがエネミーにあたったらダメージを受ける
 		if (p1->HitObject(enemy[i]) && p1->damegeFlag == false)
 		{
 			p1->life--;
 			p1->damegeFlag = true;
+			break;
+		}
+
+		// 画面から見えなくなったら消滅させる
+		if ((p1->mpPoint->ccy - enemy[i]->mpPoint->cy) >= 600)
+		{
+			enemy.erase(enemy.begin() + i);
 			break;
 		}
 	}
@@ -273,11 +274,15 @@ void GameScene::BlockUpdate()
 	for (int i = 0, n = (unsigned)block.size(); i < n; i++)
 	{
 		block[i]->Update();
+		// ブロックに触れていたら
 		if (p1->HitObject(block[i]))
 		{
 			p1->mpInfo->downFlag = false;
 			p1->mpInfo->hitObjFlag = true;
 			block[i]->mpInfo->hitObjFlag = true;
+
+			// 石化状態でブロックに触れたら
+			// ブロックを破壊して変身時間を減少する
 			if (p1->kataFlag == true && p1->actionFlag == false)
 			{
 				if (p1->enegy > 0){ p1->enegy -= 4;	}
@@ -292,6 +297,13 @@ void GameScene::BlockUpdate()
 			p1->mpInfo->hitObjFlag = false;
 			block[i]->mpInfo->hitObjFlag = false;
 		}
+
+		// 画面から消えたら消滅させる
+		if ((p1->mpPoint->ccy - block[i]->mpPoint->cy) >= 600)
+		{
+			block.erase(block.begin() + i);
+			break;
+		}
 	}
 }
 
@@ -301,6 +313,9 @@ void GameScene::ItemUpdate()
 	for (int i = 0, n = (unsigned)item.size(); i < n; i++)
 	{
 		item[i]->Update();
+		
+		// アイテムに触れたらスコアと変身ゲージを
+		// 増加させて、アイテムを消滅させる
 		if (p1->HitObject(item[i]))
 		{
 			item[i]->mpInfo->activFlag = false;
@@ -308,6 +323,8 @@ void GameScene::ItemUpdate()
 			Score::score += 100;
 			if (getFlag == false){ getFlag = true; }
 			else{ counter[0] = 0; }
+
+			// 変身ゲージ増加処理
 			if (p1->enegy < (ENEGY_MAX / ENEGY_UP)
 				&& (p1->kataFlag == false && p1->fuwaFlag == false))
 			{
@@ -316,6 +333,13 @@ void GameScene::ItemUpdate()
 			break;
 		}
 		else {}
+
+		// 画面から消えたら消滅させる
+		if ((p1->mpPoint->ccy - item[i]->mpPoint->cy) >= 600)
+		{
+			item.erase(item.begin() + i);
+			break;
+		}
 	}
 }
 
@@ -324,14 +348,16 @@ void GameScene::Update()
 	// ゴールしていない、プレイヤーが死んでいない、初回起動じゃない
 	if (goalFlag == false && overFlag == false && explanFlag == false)
 	{
-		// オブジェクトごとの処理
+		/**** オブジェクトごとの処理 ****/
 		TimeWatch::Update();
 		this->PlayerUpdate();
 		this->EnemyUpdate();
 		this->BlockUpdate();
 		this->ItemUpdate();
+		/********************************/
 
-		if (BaseScene::firstFlag == true) { explanFlag = true; }
+		// 初回起動時のみ説明を起動させる
+		if (BaseScene::firstFlag) { explanFlag = true; }
 	}
 	else
 	{
@@ -348,7 +374,8 @@ void GameScene::Update()
 			else{ brightFlag = true; }
 
 			// シーン切替
-			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
+			if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 
+				|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_B) == 1)
 			{
 				// ゲームオーバーの場合
 				if (overFlag)
@@ -393,7 +420,8 @@ void GameScene::Update()
 
 #ifdef _DEBUG
 	// シーン切替
-	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+	if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1 
+		|| JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_START) == 1)
 	{
 		if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
 		{
@@ -408,7 +436,8 @@ void GameScene::Update()
 	// Release時のdebugコード
 	if (BaseScene::modeFlag)
 	{
-		if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1)
+		if (Keyboard::GetKey(KEY_INPUT_RETURN) == 1
+			|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) == 1)
 		{
 			if ((BaseScene::stageNum - 1) > BaseScene::nowStage)
 			{
@@ -442,25 +471,38 @@ void GameScene::StageDraw()
 
 	// 変身枠
 	DrawRotaGraph(TRANS_SX, TRANS_SY, 1.0, 0.0, Graph::GetMainGraph(MG::mChange), true, false);
-	DrawRotaGraph((int)stickX, (int)stickY, 1.0, 0.0, Graph::GetMainGraph(MG::mStick), true, false);
+		DrawRotaGraph((int)stickX, (int)stickY, 1.0, 0.0, Graph::GetMainGraph(MG::mStick), true, false);
 
 	// 時間表示
 	if (TimeWatch::mSecond >= 10)
 	{
-		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.%.0f", TimeWatch::second, TimeWatch::mSecond);
+		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, 
+			"%d.%.0f", TimeWatch::second, TimeWatch::mSecond);
 	}
 	else
 	{
-		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF, "%d.0%.0f", TimeWatch::second, TimeWatch::mSecond);
+		DrawExtendFormatString(WIND_WIDTH / 2 - 128, 32, 4.0, 2.0, 0xFFFFFF,
+			"%d.0%.0f", TimeWatch::second, TimeWatch::mSecond);
 	}
 
-	DrawExtendFormatString(WIND_WIDTH / 2 - 448, 32, 4.0, 2.0, 0xFFFFFF, "%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
+	// 現在のステージ数
+	DrawExtendFormatString(WIND_WIDTH / 2 - 448, 32, 4.0, 2.0, 0xFFFFFF, 
+		"%d / %d", BaseScene::nowStage + 1, BaseScene::stageNum);
 
 	// 説明文表示
-	if (explanFlag == true && counter[1] < 4)
+	int size = (unsigned)DataFile::text.size();
+	if (explanFlag && counter[1] < size)
 	{
-		DrawRotaGraph(WIND_WIDTH / 2, (WIND_HEIGHT / 6) * 5, 0.75, 0.0, Graphics::GetMainGraph(MG::mComent), true);
-		DrawExtendFormatStringToHandle(304, 848, 1.0, 1.0, 0xFFFFFF, font->GetHandle(), DataFile::text.at(counter[1]).c_str());
+		// コメントフレーム+コメント
+		DrawRotaGraph(WIND_WIDTH / 2, (WIND_HEIGHT / 6) * 5, 0.75, 0.0, 
+			Graphics::GetMainGraph(MG::mComent), true);
+		DrawExtendFormatStringToHandle(304, 848, 1.0, 1.0, 0xFFFFFF,
+			font->GetHandle(), DataFile::text.at(counter[1]).c_str());
+
+		// 指示コメント
+		DrawExtendFormatStringToHandle(800, 980, 1.0, 1.0, 0xFFFFFF,
+			font->GetHandle(), "Spacキー または Bボタン で 次へ");
+		
 		// 体力・変身ゲージ
 		DrawExtendFormatString(1701, 160, 1.5, 1.5, 0x000000, "変身バー : HPバー\n　　↓　　↓");
 		DrawExtendFormatString(1700, 160, 1.5, 1.5, 0xFF0000, "変身バー : HPバー\n　　↓　　↓");
@@ -476,6 +518,7 @@ void GameScene::StageDraw()
 		// アイテム
 		DrawExtendFormatString(46, 160, 1.5, 1.5, 0x000000, "アイテム\n　　↓");
 		DrawExtendFormatString(45, 160, 1.5, 1.5, 0xFF0000, "アイテム\n　　↓");
+
 		tEndFlag = true;
 	}
 
@@ -489,11 +532,11 @@ void GameScene::StageDraw()
 
 void GameScene::Draw() 
 {
-	// 背景や小物の描画
+	// 背景や小物、コメントの描画
 	this->StageDraw();
 	
 	// オブジェクトごとの描画
-	if (explanFlag == false)
+	if (!explanFlag)
 	{
 		p1->Draw();
 		for (int i = 0, n = (unsigned)enemy.size(); i < n; i++)
@@ -522,10 +565,10 @@ void GameScene::Draw()
 	if (getFlag == true)
 	{
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 255 - counter[0]);
-		DrawExtendFormatString(WIND_WIDTH / 2 - 128, WIND_HEIGHT / 2, 8.0, 4.0, 0xFFFFFF, "%d", Score::score);
+		DrawExtendFormatString(WIND_WIDTH / 2 - 128, WIND_HEIGHT / 2, 
+			8.0, 4.0, 0xFFFFFF, "%d", Score::score);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 	}
-
 
 	// ゴールしたら画面を白くする
 	if (goalFlag == true)
@@ -533,7 +576,8 @@ void GameScene::Draw()
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 50);
 		DrawBox(0, 0, 1920, 1080, 0xFF0000, true);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, Graphics::GetMainGraph(MG::mGameClear), true, false);
+		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, 
+			Graphics::GetMainGraph(MG::mGameClear), true, false);
 	}
 
 	// ゲームオーバーになったら画面を薄緑にする
@@ -542,7 +586,8 @@ void GameScene::Draw()
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 100);
 		DrawBox(0, 0, 1920, 1080, 0x0000FF, true);
 		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
-		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, Graphics::GetMainGraph(MG::mGameOver), true, false);
+		DrawRotaGraph(WIND_WIDTH / 2, WIND_HEIGHT / 2, 1.0, 0.0, 
+			Graphics::GetMainGraph(MG::mGameOver), true, false);
 	}
 
 	// 指示表記
@@ -564,7 +609,8 @@ void GameScene::Draw()
 	DrawFormatString(0, 64, 0xFFFFFF, "スコア : %d", Score::score);
 	
 	// プレイヤーの情報
-	DrawFormatString(0, 96, 0xFFFFFF, "PX : %.1f\nPY : %.1f\nPスピード : %.1f\nP重力 : %.1f", p1->mpPoint->cx, p1->mpPoint->cy, p1->mpPoint->speed, p1->mpPoint->gravty);
+	DrawFormatString(0, 96, 0xFFFFFF, "PX : %.1f\nPY : %.1f\nPスピード : %.1f\nP重力 : %.1f",
+		p1->mpPoint->cx, p1->mpPoint->cy, p1->mpPoint->speed, p1->mpPoint->gravty);
 
 	// プレイヤー変身フラグ
 	DrawString(0, 192, p1->fuwaFlag ? "fuwaFlag : true" : "fuwaFlag : false", 0xFFFFFF);
@@ -576,7 +622,8 @@ void GameScene::Draw()
 
 	// アイテムフラグ
 	DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
-	DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
+	DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d",
+		ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
 #else
 	// Release時のdebugコード(内容は上記と同じもの)
 	if (BaseScene::modeFlag)
@@ -584,13 +631,15 @@ void GameScene::Draw()
 		DrawFormatString(0, 0, 0xFFFFFF, "NowScene is Game\npless Enter to next");
 		DrawFormatString(0, 32, 0xFFFFFF, "カメラMX : %.1f\nカメラMY : %.1f", cmr->mx, cmr->my);
 		DrawFormatString(0, 64, 0xFFFFFF, "スコア : %d", Score::score);
-		DrawFormatString(0, 96, 0xFFFFFF, "PX : %.1f\nPY : %.1f\nPスピード : %.1f\nP重力 : %.1f", p1->mpPoint->cx, p1->mpPoint->cy, p1->mpPoint->speed, p1->mpPoint->gravty);
+		DrawFormatString(0, 96, 0xFFFFFF, "PX : %.1f\nPY : %.1f\nPスピード : %.1f\nP重力 : %.1f",
+			p1->mpPoint->cx, p1->mpPoint->cy, p1->mpPoint->speed, p1->mpPoint->gravty);
 		DrawString(0, 192, p1->fuwaFlag ? "fuwaFlag : true" : "fuwaFlag : false", 0xFFFFFF);
 		DrawString(0, 224, p1->kataFlag ? "kataFlag : true" : "kataFlag : false", 0xFFFFFF);
 		DrawFormatString(0, 256, 0xFFFFFFF, "bCount : %d___wCount : %d", p1->bCount, p1->wCount);
 		DrawFormatString(0, 288, 0xFFFFFFF, "enemy:%d", (unsigned)enemy.size());
 		DrawString(0, 320, ItemMgr::possMaxFlag ? "ItemMaxFlag : true" : "ItemMaxFlag : false", 0xFFFFFF);
-		DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
+		DrawFormatString(0, 352, 0xFFFFFFF, "setItem[0] : %d\nsetItem[1] : %d\nsetItem[2] : %d", 
+			ItemMgr::setItem[0], ItemMgr::setItem[1], ItemMgr::setItem[2]);
 	}
 #endif
 }

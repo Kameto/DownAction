@@ -79,31 +79,9 @@ void DataFile::Clear()
 
 int DataFile::LoadText()
 {
-	// 2019-11-21-Thurs
-	// 本来ならファイルから読みこませる予定だけど、
-	// 動作確認のため一時的に直接書き込んでいる。
-
-	/*
-	std::ifstream ifs;
-	std::string str;
-	ifs.open("datafile/textdata.csv");
-	if (!ifs.fail())
-	{
-		while (getline(ifs, str))
-		{
-			text.push_back(str);
-		}
-	}
-	else
-	{
-		return -1;
-	}
-	return 0;
-	*/
-
 	text.push_back("はじめまして。いきなりですがゲームの説明をしますね。\nまずキーボードならAキーとDキーで左右の移動ができます。\nXboxコントローラーなら十字キーの左右で移動ができます。");
 	text.push_back("次にキャラクターの変身ギミックです。\nキーボードなら矢印キーを使い、左右でスティックを回し、\n上キーで選択。Spaceキーで変身します。");
-	text.push_back("Xboxコントローラーなら右ステックを操作して、\nL2トリガーで変身します。");
+	text.push_back("XboxコントローラーならAボタンで切り替えて、\nLBボタンで変身します。");
 	text.push_back("このゲームはスコアとタイムアタックが成績として反映されます。\n出来るだけ多くのアイテムを取って早くゴールしましょう!\nそれではスタートです！");
 	return 0;
 }

@@ -123,14 +123,12 @@ void ItemChangeScene::UI_Update()
 			const string s = "start " + Path.string<char>();
 			system(s.c_str());
 		}
-		else
-		{
-
-		}
 	}
 
 	// タイトルに戻る
-	if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) == 1)
+	if (Keyboard::GetKey(KEY_INPUT_SPACE) == 1
+		|| Keyboard::GetKey(KEY_INPUT_S) == 1
+		|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_START) == 1)
 	{
 		BaseScene::nowScene = SceneName::eTitle;
 	}
@@ -205,7 +203,7 @@ void ItemChangeScene::UI_Draw()
 	}
 
 	// comment
-	DrawExtendFormatString(565, 1020, 2.0, 2.0, 0x000000, "Spaceキー でタイトルへ  C + X　で アイテム図鑑");
+	DrawExtendFormatString(465, 1020, 2.0, 2.0, 0x000000, "Startボタン　OR　Spaceキー でタイトルへ  C + X　で アイテム図鑑");
 
 #ifdef _DEBUG
 	DrawExtendFormatString(1920 / 2 - 192, 100, 1.0, 1.0, 0xFFFFFF, "back to title => push tab key");

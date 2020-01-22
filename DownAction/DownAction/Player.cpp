@@ -126,7 +126,8 @@ void Player::StateUpdate()
 	// ブロック透過用処理
 	if (bCount > 0
 		&& blockFlag == false 
-		&& Keyboard::GetKey(KEY_INPUT_C) == 1
+		&& (Keyboard::GetKey(KEY_INPUT_C) == 1 
+			|| JoyPad::Button_Get(PLAY_NUM_1 ,XINPUT_BUTTON_X) == 1)
 		&& ItemMgr::possItemFlag[(int)ItemName::IN_mMask] == true
 		&& (ItemMgr::setItem[0] == (int)ItemName::IN_mMask
 			|| ItemMgr::setItem[1] == (int)ItemName::IN_mMask
@@ -150,7 +151,8 @@ void Player::StateUpdate()
 
 	// ワープ処理
 	if (wCount > 0 
-		&& Keyboard::GetKey(KEY_INPUT_F) == 1
+		&& (Keyboard::GetKey(KEY_INPUT_F) == 1
+			|| JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_Y) == 1)
 		&& ItemMgr::possItemFlag[(int)ItemName::IN_mPortal] == true
 		&& (ItemMgr::setItem[0] == (int)ItemName::IN_mPortal 
 			|| ItemMgr::setItem[1] == (int)ItemName::IN_mPortal
@@ -195,12 +197,14 @@ void Player::Update()
 	}
 
 	// 左右移動 //
-	if ((Keyboard::GetKey(KEY_INPUT_D) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_RIGHT) > 0)
+	if ((Keyboard::GetKey(KEY_INPUT_D) > 0
+		 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_RIGHT) > 0)
 		&& mpPoint->cx + (mpInfo->sizeX / 2) + mpPoint->speed < (1920 - (double)WALL_WIDTH))
 	{
 		dir = Dir::mRight;
 	}
-	else if ((Keyboard::GetKey(KEY_INPUT_A) > 0 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 0) 
+	else if ((Keyboard::GetKey(KEY_INPUT_A) > 0
+		 || JoyPad::Button_Get(PLAY_NUM_1, XINPUT_BUTTON_DPAD_LEFT) > 0) 
 		&& mpPoint->cx - (mpInfo->sizeX / 2) - mpPoint->speed > WALL_WIDTH)
 	{
 		dir = Dir::mLeft;
@@ -237,14 +241,16 @@ void Player::Draw()
 #endif
 
 	// アイテムボックスとか
-	DrawRotaGraph(96, 512, 2.0, PI / 2, Graphics::GetMainGraph(MG::mItemBox), false, false);
+	DrawRotaGraph(96, 512, 2.0, PI / 2, 
+		Graphics::GetMainGraph(MG::mItemBox), false, false);
 	for (int i = 0; i < ItemMgr::possItem; i++)
 	{
 		if (ItemMgr::possItemFlag[ItemMgr::setItem[i]] == true)
 		{
 			if (((int)MG::mCandela + ItemMgr::setItem[i]) < (int)MG::mAll_num)
 			{
-				DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mCandela + ItemMgr::setItem[i]), false, false);
+				DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0,
+					Graphics::GetMainGraph(MG::mCandela + ItemMgr::setItem[i]), false, false);
 			}
 			else
 			{
@@ -253,8 +259,10 @@ void Player::Draw()
 		}
 		else
 		{
-			DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mChain), true, false);
-			DrawRotaGraph(96, 320 + ((192 * i)), 0.50, 0.0, Graphics::GetMainGraph(MG::mKeyLock), true, false);
+			DrawRotaGraph(96, 320 + ((192 * i)), 0.75, 0.0,
+				Graphics::GetMainGraph(MG::mChain), true, false);
+			DrawRotaGraph(96, 320 + ((192 * i)), 0.75, 0.0, 
+				Graphics::GetMainGraph(MG::mKeyLock), true, false);
 		}
 	}
 
@@ -270,12 +278,14 @@ void Player::Draw()
 		if (counter[2] % 11 == 0)
 		{
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 100);
-			DrawRotaGraph(mpPoint->cx, mpPoint->cy, 1.0, 0.0, Graph::GetPlayerGraph(mpInfo->state), true, this->mpInfo->dirFlag);
+			DrawRotaGraph(mpPoint->cx, mpPoint->cy, 1.0, 0.0, 
+				Graph::GetPlayerGraph(mpInfo->state), true, this->mpInfo->dirFlag);
 			SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 		}
 	}
 	else
 	{
-		DrawRotaGraph(mpPoint->cx, mpPoint->cy, 1.0, 0.0, Graph::GetPlayerGraph(mpInfo->state), true, this->mpInfo->dirFlag);
+		DrawRotaGraph(mpPoint->cx, mpPoint->cy, 1.0, 0.0, 
+			Graph::GetPlayerGraph(mpInfo->state), true, this->mpInfo->dirFlag);
 	}
 }
