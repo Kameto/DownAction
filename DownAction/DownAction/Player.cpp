@@ -75,21 +75,27 @@ void Player::StateUpdate()
 	{
 		mpInfo->dirFlag = false;
 	}
+	else {}
 
 	// 変身しているかどうか
 	if (fuwaFlag == true || kataFlag == true)
 	{
+		// 変身時の効果時間処理
 		counter[0]++;
 		if (counter[0] % 64 == 0)
 		{
 			enegy--;
 		}
-		if (enegy == 0)
+		else {}
+
+		// 変身エネルギーが0以下になったら変身解除
+		if (enegy <= 0)
 		{
 			counter[0] = 0;
 			fuwaFlag = kataFlag = false;
 			mpPoint->speed = DEFAULT_SPD;
 		}
+		else {}
 	}
 
 	// 変化（かるいとき）時処理
